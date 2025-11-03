@@ -1,0 +1,36 @@
+.container {
+    height: 800px;
+}
+
+.logo {
+    margin-bottom: 0px;
+    padding-bottom: 5px;
+    height: 1500px; /* provavelmente teste ou provisório */
+}
+
+input[type="checkbox"] {
+    border-radius: 10px;
+}
+
+input[type="checkbox"]:checked::after {
+    font-size: 12px;
+}
+
+fieldset {
+    padding: 1px;
+    margin-top: 40px;
+    gap: 20px;
+    display: flex;
+    border: none;
+}
+
+fieldset div {
+    display: flex;
+    gap: 40px;
+}
+
+fieldset label {
+    align-items: right;
+    cursor: pointer;
+    font-size: 14px;
+}
