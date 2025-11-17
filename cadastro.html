@@ -24,7 +24,8 @@
             <h1>Cadastre-se</h1>
 
             <div class="input-box">
-                <input type="text" id="nome" placeholder="Nome" name="nome_completo" required autocomplete="name" maxlength="50">
+                <input type="text" id="nome" placeholder="Nome" name="nome_completo" required autocomplete="name"
+                    maxlength="50">
             </div>
 
             <div class="input-box">
@@ -51,6 +52,19 @@
                 </button>
             </div>
 
+            <div class="input-box select-wrapper">
+                <select id="setor" name="setor" required>
+                    <option value="" disabled selected>Selecione seu setor</option>
+                    <option value="RH">Recursos Humanos</option>
+                    <option value="Produção">Produção</option>
+                    <option value="Engenharia">Engenharia</option>
+                    <option value="Financeiro">Financeiro</option>
+                    <option value="TI">Tecnologia da Informação</option>
+                    <option value="Administrativo">Administrativo</option>
+                    <option value="Outros">Outros</option>
+                </select>
+            </div>
+
             <button type="submit" class="login">Criar conta</button>
 
             <div class="register-link">
@@ -59,8 +73,16 @@
 
         </form>
     </main>
-
     <script src="static/js/functions.js"></script>
+    
+    <script>
+        document.querySelectorAll('.select-wrapper select').forEach(select => {
+            select.addEventListener('change', () => {
+                select.blur(); // desfoca → seta volta imediatamente
+            });
+        });
+    </script>
+
 </body>
 
 </html>
