@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,11 +8,13 @@
     <link rel="stylesheet" type="text/css" href="static/css/login_style.css">
     <link rel="icon" href="static/imagens/icone1.png"> <!-- Icon da Página(Logo) --> 
     <title> Login - CONECTAHUB</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="static/js/functions.js" defer></script>
 </head>
 <body>
     <main class="container">
         <div class="logo">
-            <a href="index.html">
+            <a href="/index.html">
                 <img src="static\imagens\logotipo.png" alt="Logo" class="logo-img">
             </a>
         </div>
@@ -42,10 +45,14 @@
             
             <button type="submit" class="login">Entrar</button>
             <div class="register-link">
-                <p>Não tem uma conta? <a href="cadastro.html">Cadastre-se agora</a></p>
+                <p>Não tem uma conta? <a href="/cadastro.html">Cadastre-se agora</a></p>
             </div>
         </form>
     </main>
-    <script src="static/js/functions.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="static/js/supabase.js"></script>
+    <script type="module" src="static/js/login.js"></script>
+
 </body>
 </html>
