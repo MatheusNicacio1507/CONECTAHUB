@@ -1,76 +1,64 @@
-// =========================
-// CONFIG SUPABASE
-// =========================
-const SUPABASE_URL = "https://flpygmhnpagppxitqkhw.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZscHlnbWhucGFncHB4aXRxa2h3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM0MTUzNDIsImV4cCI6MjA3ODk5MTM0Mn0.m1vuSLoc6OX15AExTmbPSlGRWxTMfWXywbreQXYODpA";
+console.log("LOGIN.JS CARREGOU!");
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+document.addEventListener("DOMContentLoaded", () => {
 
-// =========================
-// TOGGLE DE SENHA
-// =========================
-function setupToggle(toggleBtnId, inputId) {
-    const btn = document.getElementById(toggleBtnId);
-    const input = document.getElementById(inputId);
+    const togglePassword = document.getElementById("togglePassword");
+    const passwordInput  = document.getElementById("password");
 
-    if (!btn || !input) return;
+    if (togglePassword) {
+        togglePassword.addEventListener("click", () => {
+            const isPassword = passwordInput.type === "password";
+            passwordInput.type = isPassword ? "text" : "password";
 
-    btn.addEventListener("click", () => {
-        const type = input.type === "password" ? "text" : "password";
-        input.type = type;
+            const icon = togglePassword.querySelector("i");
+            icon.classList.toggle("bx-hide", !isPassword);
+            icon.classList.toggle("bx-show", isPassword);
+        });
+    }
 
-        const icon = btn.querySelector("i");
+    const loginForm = document.getElementById("loginForm");
 
-        if (type === "password") {
-            icon.classList.remove("bx-show");
-            icon.classList.add("bx-hide");
-        } else {
-            icon.classList.remove("bx-hide");
-            icon.classList.add("bx-show");
+    if (!loginForm) {
+        console.error("ERRO: Não encontrou o formulário de login (#loginForm).");
+        return;
+    }
+
+    loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById("email").value.trim();
+        const senha = document.getElementById("password").value.trim();
+
+        if (!email || !senha) {
+            alert("Preencha email e senha!");
+            return;
         }
+
+        const { data, error } = await supabase
+            .from("usuarios")
+            .select("*")
+            .eq("email", email)
+            .eq("senha", senha)
+            .maybeSingle();
+
+        console.log("Retorno Supabase:", data, error);
+
+        if (error) {
+            alert("Erro ao conectar ao servidor!");
+            return;
+        }
+
+        if (!data) {
+            alert("E-mail ou senha incorretos.");
+            return;
+        }
+
+        localStorage.setItem("user", JSON.stringify({
+            id: data.id,
+            nome: data.nome,
+            setor: data.setor
+        }));
+
+        window.location.href = "perfil.html";
     });
-}
-
-setupToggle("togglePassword", "password");
-
-// =========================
-// LOGIN CORRIGIDO
-// =========================
-document.getElementById("loginForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const email = document.getElementById("email").value.trim();
-    const senha = document.getElementById("password").value.trim();
-
-    if (!email || !senha) {
-        alert("Preencha todos os campos!");
-        return;
-    }
-
-    // Apenas busca o usuário pelo email
-    const { data: user, error } = await supabase
-        .from("usuarios")
-        .select("*")
-        .eq("email", email)
-        .maybeSingle();
-
-    if (error) {
-        console.error("Erro Supabase:", error);
-        alert("Erro ao fazer login.");
-        return;
-    }
-
-    if (!user) {
-        alert("Usuário não encontrado.");
-        return;
-    }
-
-    // Agora check de senha manual
-    if (user.senha !== senha) {
-        alert("Senha incorreta.");
-        return;
-    }
-
-    alert("Login realizado com sucesso!");
-    window.location.href = "perfil.html";
 });

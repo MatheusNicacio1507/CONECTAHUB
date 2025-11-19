@@ -1,0 +1,103 @@
+body {
+            margin: 0;
+            padding: 0;
+            font-family: "Poppins", sans-serif;
+            background: linear-gradient(180deg, #4eb4e7 0%, #30b9cc 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .card {
+            width: 420px;
+            background: rgba(255, 255, 255, 0.384);
+            backdrop-filter: blur(18px);
+            border-radius: 22px;
+            padding: 35px 25px;
+            text-align: center;
+            color: #000000;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.25);
+            animation: fadeIn .5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.25);
+            margin: 0 auto 10px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 55px;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(0,0,0,0.25);
+        }
+
+        h2 {
+            margin: 15px 0 5px;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        p {
+            margin: 5px 0;
+            font-size: 15px;
+        }
+
+        .info-box {
+            background: rgba(255,255,255,0.20);
+            padding: 18px;
+            margin-top: 18px;
+            border-radius: 14px;
+            text-align: left;
+            line-height: 1.6;
+            box-shadow: 0 0 8px rgba(0,0,0,0.12);
+        }
+
+        .label {
+            font-weight: 600;
+            color: #e6f7ff;
+        }
+
+        .logout {
+            margin-top: 25px;
+            width: 100%;
+            padding: 14px 0;
+            border: none;
+            border-radius: 30px;
+            background: #0d71b9;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.25s;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.25);
+        }
+
+        .logout:hover {
+            background: #0b5d97;
+        }
+
+        @media (max-width: 500px) {
+            .card {
+                width: 90%;
+                padding: 30px 15px;
+            }
+
+            .avatar {
+                width: 95px;
+                height: 95px;
+                font-size: 45px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+        }
