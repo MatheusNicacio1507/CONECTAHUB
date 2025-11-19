@@ -1,58 +1,60 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-    
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>         
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" type="text/css" href="static/css/login_style.css">
-    <link rel="icon" href="static/imagens/icone1.png"> <!-- Icon da Página(Logo) --> 
-    <title> Login - CONECTAHUB</title>
+    <link rel="icon" href="static/imagens/icone1.png">
+
+    <!-- SUPABASE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="static/js/functions.js" defer></script>
+
+    <title>Login - CONECTAHUB</title>
 </head>
+
 <body>
     <main class="container">
+
         <div class="logo">
-            <a href="/index.html">
-                <img src="static\imagens\logotipo.png" alt="Logo" class="logo-img">
-            </a>
+            <img src="static/imagens/logotipo.png" class="logo-img">
         </div>
-        
+
         <form id="loginForm">
             <h1>Entre na sua conta</h1>
-            
+
             <div class="input-box">
                 <input id="email" placeholder="E-mail" type="email" required>
                 <i class="bx bxs-user"></i>
             </div>
-            
+
             <div class="input-box">
                 <input id="password" placeholder="Senha" type="password" required>
                 <i class="bx bxs-lock-alt"></i>
-                <button type="button" id="togglePassword" class="toggle-password" aria-label="Mostrar senha">
+
+                <button type="button" id="togglePassword" class="toggle-password">
                     <i class='bx bx-hide'></i>
                 </button>
             </div>
-            
+
             <div class="remember-forgot">
-                <label>
-                    <input type="checkbox" id="remember">
-                    Lembrar Senha
-                </label>               
+                <label><input type="checkbox"> Lembrar Senha</label>
                 <a href="#">Esqueceu a senha?</a>
             </div>
-            
+
             <button type="submit" class="login">Entrar</button>
+
             <div class="register-link">
-                <p>Não tem uma conta? <a href="/cadastro.html">Cadastre-se agora</a></p>
+                <p>Não tem uma conta? <a href="cadastro.html">Cadastre-se agora</a></p>
             </div>
+
         </form>
+
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="static/js/supabase.js"></script>
-    <script type="module" src="static/js/login.js"></script>
-
+    <script src="static/js/login.js"></script>
 </body>
+
 </html>

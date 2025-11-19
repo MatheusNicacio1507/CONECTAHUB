@@ -157,3 +157,58 @@ if (cadastroForm) {
         window.location.href = "perfil.html";
     });
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    function setupPasswordToggle(btnId, inputId) {
+        const button = document.getElementById(btnId);
+        const input = document.getElementById(inputId);
+
+        if (!button || !input) return; // página sem esse campo → ignora
+
+        button.addEventListener("click", () => {
+            const isPassword = input.type === "password";
+            input.type = isPassword ? "text" : "password";
+
+            const icon = button.querySelector("i");
+
+            if (isPassword) {
+                icon.classList.remove("bx-hide");
+                icon.classList.add("bx-show");
+            } else {
+                icon.classList.remove("bx-show");
+                icon.classList.add("bx-hide");
+            }
+        });
+    }
+
+    // LOGIN
+    setupPasswordToggle("togglePassword", "password");
+
+    // CADASTRO
+    setupPasswordToggle("togglePassword", "password");
+    setupPasswordToggle("toggleConfirmPassword", "confirmPassword");
+});
+
+// sistema de toggle funcionando para todos os campos com toggle-password
+document.addEventListener("DOMContentLoaded", () => {
+    const toggles = document.querySelectorAll(".toggle-password");
+
+    toggles.forEach(toggle => {
+        toggle.addEventListener("click", () => {
+            const targetId = toggle.getAttribute("data-target");
+            const input = document.getElementById(targetId);
+            const icon = toggle.querySelector("i");
+
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("bx-hide");
+                icon.classList.add("bx-show");
+            } else {
+                input.type = "password";
+                icon.classList.remove("bx-show");
+                icon.classList.add("bx-hide");
+            }
+        });
+    });
+});

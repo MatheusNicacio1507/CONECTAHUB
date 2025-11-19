@@ -82,3 +82,23 @@ fieldset label {
 .input-box.select-wrapper:focus-within::after {
     transform: translateY(-50%) rotate(180deg);
 }
+
+.icon-lock {
+    position: absolute;
+    right: 70px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #0d71b9;
+    opacity: .85;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+}
