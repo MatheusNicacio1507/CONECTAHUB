@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reuniões - CONECTAHUB</title>
+    <link rel="stylesheet" href="static/css/reuniao_style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="static/imagens/icone1.png">
+
+</head>
+<body>
+    <div class="container">
+        <!-- =================== SIDEBAR =================== -->
+        <div class="sidebar" id="sidebar">
+            <div class="logo">
+                <img src="static/imagens/loguinha.png" alt="ConectaHub" class="logo-small">
+                <img src="static/imagens/logotipo.png" alt="ConectaHub" class="logo-large">
+            </div>
+
+            <ul class="nav-menu">
+                <li class="nav-item has-submenu active">
+                    <a href="perfil.html" class="nav-item-main">
+                        <i class="fas fa-user"></i>
+                        <span>Perfil</span>
+                        <i class="fas fa-chevron-down submenu-toggle"></i>
+                    </a>
+                    <ul class="submenu">
+                        <li class="submenu-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Atividades Recentes</span>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="chat.html"><i class="fas fa-comments"></i><span>Chat</span></a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="reuniao.html">
+                        <i class="fas fa-video"></i>
+                        <span>Reuniões</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="comunicados.html"><i class="fas fa-bullhorn"></i><span>Comunicados</span></a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="ranking.html"><i class="fas fa-trophy"></i><span>Reconhecimento</span></a>
+                </li>
+            </ul>
+        </div>
+
+
+        <!-- =================== MAIN CONTENT =================== -->
+        <div class="main-content">
+               
+            <!-- =================== MEETING SECTION =================== -->
+            <div class="meeting-section">
+                <!-- Ícone de vídeo solto no centro acima -->
+                <div class="meeting-icon">
+                    <i class="fas fa-video"></i>
+                </div>
+
+                <!-- Primeira linha: Iniciar reunião e Entrar com código lado a lado SOLTOS -->
+                <div class="meeting-top-row">
+                    <!-- Botão iniciar reunião SOLTO -->
+                    <button class="start-meeting-btn" id="start-meeting-btn">
+                        <i class="fas fa-plus"></i> Iniciar reunião
+                    </button>
+
+                    <!-- Botão para mostrar campo de código -->
+                    <button class="join-meeting-btn" id="show-code-btn">
+                        <i class="fas fa-sign-in-alt"></i> Entrar com código
+                    </button>
+                </div>
+
+                <!-- Campo código (inicialmente escondido) -->
+                <div class="join-input-container hidden" id="code-input-container">
+                    <input type="text" id="meeting-code" placeholder="Digite o código da reunião">
+                    <button class="join-btn" id="join-meeting-btn">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- Lista de reuniões mais abaixo -->
+                <div class="recent-meetings-container">
+                    <h3>Lista de reuniões recentes</h3>
+                    <div class="meetings-list" id="meetings-list">
+                        <!-- As reuniões serão adicionadas dinamicamente via JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =================== MODAL DE INICIAR REUNIÃO =================== -->
+    <div class="modal" id="meeting-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Iniciar Nova Reunião</h3>
+                <button class="close-btn" onclick="closeMeetingModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="meeting-title">Título da reunião</label>
+                    <input type="text" id="meeting-title" placeholder="Digite o título da reunião">
+                </div>
+                <div class="form-group">
+                    <label for="meeting-description">Descrição (opcional)</label>
+                    <textarea id="meeting-description" placeholder="Adicione uma descrição para a reunião"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="meeting-participants">Participantes (opcional)</label>
+                    <input type="text" id="meeting-participants" placeholder="Digite os e-mails dos participantes">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeMeetingModal()">Cancelar</button>
+                <button class="btn-confirm" onclick="createMeeting()">Iniciar Reunião</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="static/js/reuniao.js"></script>
+</body>
+</html>

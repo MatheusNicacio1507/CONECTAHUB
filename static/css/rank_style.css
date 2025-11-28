@@ -1,0 +1,608 @@
+html {
+  scroll-behavior: smooth;
+}
+
+/* =================== CORES =================== */  
+:root {  
+    --primary-color: #2c3e50;  
+    --secondary-color: #3498db;  
+    --accent-color: #2c3e50;  
+    --light-color: #ecf0f1;  
+    --dark-color: #34495e;  
+    --success-color: #2ecc71;  
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  
+    }  
+    
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+    background: linear-gradient(#42cc9c, #33c0e8 20%, #0c71B9, #094F81 100%);
+    color: white;
+    line-height: 1.6;
+    min-height: 100vh;
+    }
+    
+    .container {
+    display: flex;
+    min-height: 100vh;
+    }
+    
+    /* =================== SIDEBAR =================== */
+    
+    .sidebar {
+    width: 100px; /* recolhido */
+    background: #0c71B9;
+    color: white;
+    padding: 20px 0;
+    box-shadow: 10px 10px 18px rgba(0, 0, 0, 0.45);
+    overflow: hidden;
+    transition: width 0.3s ease;
+    cursor: pointer;
+    position: fixed;
+    height: 100vh;
+    z-index: 1000;
+    border-radius: 20px;
+    }
+    
+    .sidebar.expanded {
+    width: 250px; /* expandido */
+    }
+    
+    /* =================== LOGO DUPLA =================== */
+    .logo {
+        padding: 30px 40px;
+        border-bottom: 1px solid rgba(44, 62, 80, 0.1);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.2s ease;
+        position: relative;
+    }
+    
+    .logo-small,
+    .logo-large {
+        transition: all 0.3s ease;
+        object-fit: contain;
+    }
+    
+    /* Logo pequena (menu recolhido) */
+    .logo-small {
+        width: 50px;
+        height: auto;
+        opacity: 1;
+    }
+    
+    .logo-large {
+        margin-right: 55px;
+        width: 160px;
+        height: auto;
+        opacity: 0;
+        position: absolute;
+    }
+    
+    
+    /* Quando o menu está EXPANDIDO */
+    .sidebar.expanded .logo-small {
+        opacity: 0;
+    }
+    
+    .sidebar.expanded .logo-large {
+        opacity: 1;
+        position: static;
+    }
+    
+    /* Menu */
+    .nav-menu {
+        list-style: none;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        background: #0c71B9;
+    }
+    
+    .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 0;
+        width: 100%;
+        justify-content: center;
+        color: black;
+    }
+    
+    .nav-item i {
+        font-size: 20px;
+    }
+    
+    .nav-item:hover {
+        background-color: rgba(44, 62, 80, 0.1);
+    }
+    
+    .nav-item.active {
+        background-color: rgba(44, 62, 80, 0.15);
+        border-left: 4px solid var(--secondary-color);
+    }
+    
+    /* Ícones */
+    .sidebar.expanded .nav-item {
+        justify-content: flex-start;
+        padding-left: 0;
+        gap: 12px;
+    }
+    
+    .sidebar.expanded .nav-item i {
+        margin-right: 10px;
+        width: 35px;
+    }
+    
+    /* Textos ocultos no recolhido */
+    .nav-item span {
+        opacity: 0;
+        width: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        transition: opacity 0.2s ease, width 0.2s ease;
+    }
+    
+    .sidebar.expanded .nav-item span {
+        opacity: 1;
+        width: auto;
+    }
+    
+    /* Submenu */
+    .nav-item.has-submenu {
+        position: relative;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0;
+    }
+    
+    .nav-item.active .submenu {
+        display: flex;
+    }
+    
+    .nav-item-main {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        width: 100%;
+        padding: 10px;
+        cursor: pointer;
+    }
+    
+    .submenu-toggle {
+        transition: transform 0.3s ease;
+        cursor: pointer;
+        padding: 5px;
+        border-radius: 3px;
+    }
+    
+    .submenu-toggle:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .nav-item.active .submenu-toggle {
+        transform: rotate(180deg);
+    }
+    
+    .submenu {
+        display: none;
+        flex-direction: column;
+        gap: 8px;
+        padding-left: 30px;
+    }
+    
+    .nav-item.has-submenu.active .submenu {
+        max-height: 150px;
+    }
+    
+    .submenu-item {
+        padding: 10px 15px;
+        display: grid;
+        grid-template-columns: 35px 1fr;
+        align-items: center;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        color: black;
+        border-left: 2px solid transparent;
+        column-gap: 8px;
+    }
+    
+    .submenu-item:hover {
+        background-color: rgba(44, 62, 80, 0.1);
+    }
+    
+    .submenu-item.active {
+        background-color: rgba(44, 62, 80, 0.15);
+        border-left-color: var(--secondary-color);
+    }
+    
+    .submenu-item i {
+        width: 35px;
+        text-align: center;
+        font-size: 1.1rem;
+        color: black;
+    }
+    
+    /* Esconde nome no submenu recolhido */
+    .sidebar:not(.expanded) .submenu-item span {
+        display: none;
+    }
+    
+    /* =================== LINKS NO MENU =================== */
+    .nav-item > a {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: inherit;
+        width: 100%;
+        padding: 10px;
+        gap: 12px;
+        justify-content: center;
+    }
+    
+    .sidebar.expanded .nav-item > a {
+        justify-content: flex-start;
+    }
+    
+    .nav-item > a:hover {
+        background-color: rgba(44, 62, 80, 0.1);
+    }
+    
+    .nav-item.active > a {
+        background-color: rgba(44, 62, 80, 0.15);
+    }
+    
+    /* Para o item com submenu */
+    .nav-item.has-submenu > a {
+        padding-right: 0;
+    }
+    
+    /* =================== MAIN CONTENT =================== */
+    
+    .main-content {
+        flex: 1;
+        padding: 30px;
+        overflow-y: auto;
+        background: linear-gradient(#42cc9c, #33c0e8 20%, #0c71B9, #094F81 100%);
+        margin-left: 100px; /* Largura da sidebar recolhida */
+        transition: margin-left 0.3s ease;
+        width: calc(100% - 100px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .sidebar.expanded ~ .main-content {
+        margin-left: 250px; /* Largura da sidebar expandida */
+        width: calc(100% - 250px);
+    }
+    
+    .header {
+    margin-bottom: 30px;
+    }
+    
+    .ranking-header h2 {
+    font-size: 1.1rem;
+    color: black;
+    margin-bottom: 3px;
+    }
+    
+    /* =================== RANKING SECTION =================== */
+    
+    .ranking-section {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+    
+    .ranking-card {
+        background: linear-gradient( #33c0e8 20%, #0c71B9, #094F81 100%);
+        border-radius: 15px;
+        box-shadow: var(--shadow);
+        padding: 50px;
+    }
+    
+    .ranking-card.hidden {
+        display: none;
+    }
+    
+    .ranking-title {
+        font-size: 1.1rem;
+        color: black;
+        margin-bottom: 2px;
+    }
+    
+    .ranking-subtitle {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.1rem;
+        margin-bottom: 25px;
+        text-align: center;
+        font-weight: 10px;
+        color: black;
+    }
+    
+    .ranking-positions {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .position-card {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+    
+    .position-card:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+    }
+    
+    .position-number {
+        background-color: white;
+        color: #0c71B9;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+    
+    .position-info {
+        flex: 1;
+    }
+    
+    .position-name {
+        color: black;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+    
+    .position-points {
+        font-size: 0.9rem;
+        color: black;
+    }
+    
+    /* Posições especiais */
+    .first-place {
+        background: linear-gradient(135deg, #FFD700, #FFA500);
+    }
+    
+    .first-place .position-number {
+        background-color: #FFA500;
+        color: white;
+    }
+    
+    .second-place {
+        background: linear-gradient(135deg, #C0C0C0, #A0A0A0);
+    }
+    
+    .second-place .position-number {
+        background-color: #A0A0A0;
+        color: white;
+    }
+    
+    .third-place {
+        background: linear-gradient(135deg, #CD7F32, #A56C27);
+    }
+    
+    .third-place .position-number {
+        background-color: #A56C27;
+        color: white;
+    }
+    
+    .crown-icon {
+        color: #FFD700;
+        font-size: 1.5rem;
+    }
+    
+    /* Conquistas */
+    .achievements-section {
+        background-color: #0c71B9;
+        border-radius: 15px;
+        box-shadow: var(--shadow);
+        padding: 30px;
+    }
+    
+    .achievements-title {
+        color: black;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    
+    .department-badges {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .department-badge {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        padding: 8px 10px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        transition: all 0.3s ease;
+        min-width: 150px;
+        cursor: pointer;
+        justify-content: center;
+    }
+    
+    .department-badge:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+    }
+    
+    .department-badge.active {
+        background-color: rgba(255, 255, 255, 0.3);
+        border: 2px solid white;
+        transform: scale(1.05);
+    }
+    
+    .badge-icon {
+        display: none;
+    }
+    
+    .badge-text {
+        color: black;
+        font-weight: 600;
+        font-size: 1.0rem;
+        margin: 0;
+        text-align: center;
+    }
+    
+    /* =================== RESPONSIVE =================== */
+    @media (max-width: 680px) {
+        .container {
+            flex-direction: column;
+        }
+    
+        .sidebar {
+            width: 100% !important;
+            min-height: auto;
+            background: #0c71B9;
+            padding: 10px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: visible;
+            position: relative;
+            height: auto;
+        }
+    
+        .sidebar.expanded {
+            width: 100% !important;
+        }
+    
+        .logo {
+            margin: 0;
+            padding: 10px;
+        }
+    
+        .logo-small {
+            width: 45px !important;
+        }
+    
+        .logo-large {
+            width: 80px !important;
+        }
+    
+        .nav-menu {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            overflow-x: auto;
+            justify-content: space-around;
+            padding: 10px 0;
+        }
+    
+        .nav-item {
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            padding: 0;
+            min-width: 65px;
+            color: black;
+        }
+    
+        .nav-item > a {
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            padding: 12px;
+        }
+    
+        .nav-item i {
+            font-size: 1.3rem;
+            margin: 0 !important;
+            width: 100%;
+            text-align: center;
+        }
+    
+        .nav-item span,
+        .submenu,
+        .submenu-toggle {
+            display: none !important;
+        }
+    
+        .main-content {
+            padding-top: 20px;
+            margin-left: 0 !important;
+            width: 100% !important;
+        }
+    
+        /* ==== RANKING RESPONSIVE ==== */
+        .ranking-section {
+            gap: 40px;
+        }
+        
+        .ranking-card,
+        .achievements-section {
+            padding: 60px;
+        }
+        
+        .position-card {
+            padding: 15px;
+        }
+        
+        .position-number {
+            width: 40px;
+            height: 40px;
+            font-size: 1rem;
+        }
+        
+        .department-badges {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .department-badge {
+            width: 100%;
+            max-width: 200px;
+            justify-content: center;
+        }
+        
+        .ranking-header h2 {
+            font-size: 1.0rem;
+            color: black;
+            margin-top: -46px;
+            margin-left: -44px;
+        }
+    
+        .ranking-title {
+            font-size: 1.0rem;
+            color: black;
+            margin-top: -7px;
+            margin-left: -45px;
+        }
+        
+        .ranking-subtitle {
+            margin-top: 28px;
+            color: black;
+            font-weight: 10px;
+        }
+    }

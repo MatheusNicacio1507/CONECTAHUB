@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat - CONECTAHUB</title>
+    <link rel="stylesheet" href="static/css/chat_style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="static/imagens/icone1.png">
+
+</head>
+
+<body>
+    <div class="container">
+
+        <!-- =================== SIDEBAR =================== -->
+        <div class="sidebar" id="sidebar">
+            <div class="logo">
+                <img src="static/imagens/loguinha.png" alt="ConectaHub" class="logo-small">
+                <img src="static/imagens/logotipo.png" alt="ConectaHub" class="logo-large">
+            </div>
+
+            <ul class="nav-menu">
+                <li class="nav-item has-submenu active">
+                    <a href="perfil.html" class="nav-item-main">
+                        <i class="fas fa-user"></i>
+                        <span>Perfil</span>
+                        <i class="fas fa-chevron-down submenu-toggle"></i>
+                    </a>
+                    <ul class="submenu">
+                        <li class="submenu-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Atividades Recentes</span>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="chat.html"><i class="fas fa-comments"></i><span>Chat</span></a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="reuniao.html">
+                        <i class="fas fa-video"></i>
+                        <span>Reuniões</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="comunicados.html"><i class="fas fa-bullhorn"></i><span>Comunicados</span></a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="ranking.html"><i class="fas fa-trophy"></i><span>Reconhecimento</span></a>
+                </li>
+            </ul>
+        </div>
+        <!-- =================== CHAT COMPLETO =================== -->
+        <div class="main-content">
+
+            <div class="channels-panel">
+                <h3 class="channels-title">↳ Canais <i class="fas fa-chevron-down"></i></h3>
+
+                <ul class="channels-list">
+                    <li class="channel selected"># RH</li>
+                    <li class="channel"># Produção</li>
+                    <li class="channel"># Engenharia</li>
+                    <li class="channel"># Administração</li>
+                </ul>
+
+                <h4 class="direct-title">↳ Mensagens diretas <span>+</span></h4>
+            </div>
+
+            <!-- Caixa maior do chat -->
+            <div class="chat-area">
+
+                <!-- Topo do chat -->
+                <div class="chat-header">
+                    <span class="chat-name"><b># RH </b><i class="fas fa-chevron-down"></i></span>
+
+                    <div class="chat-actions">
+                        <button class="b-icon">★</button>
+                        <button class="b-icon">👥 32</button>
+                        <button class="b-icon">⋯</button>
+
+                        <div class="right-actions">
+                            <i class="fas fa-bell"></i>
+                            <i class="fas fa-phone"></i>
+                            <input type="text" class="search" placeholder="Buscar">
+                            <i class="fas fa-at"></i>
+                            <i class="fas fa-bell"></i>
+                            <i class="fas fa-gear"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lista de mensagens/cards -->
+                <div class="chat-users">
+                    <div class="message-card">
+                        <div class="avatar"></div>
+                        <div class="user-data">
+                            <span class="user">Pessoa 1:</span><br>
+                            <span class="msg">...</span>
+                            <span class="time">00:00</span>
+                        </div>
+                    </div>
+
+                    <div class="message-card">
+                        <div class="avatar"></div>
+                        <div class="user-data">
+                            <span class="user">Pessoa 2:</span><br>
+                            <span class="msg">...</span>
+                            <span class="time">00:00</span>
+                        </div>
+                    </div>
+
+                    <div class="message-card">
+                        <div class="avatar"></div>
+                        <div class="user-data">
+                            <span class="user">Pessoa 3:</span><br>
+                            <span class="msg">...</span>
+                            <span class="time">00:00</span>
+                        </div>
+                    </div>
+
+                    <div class="message-card-me">
+                        <div class="avatar"></div>
+                        <div class="user-data">
+                            <span class="user">Eu:</span><br>
+                            <span class="msg">...</span>
+                            <span class="time">00:00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Campo de mensagem -->
+                <div class="chat-input">
+                    <input type="text" placeholder="">
+                    <button class="send"><i class="fas fa-paper-plane"></i></button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="static/js/chat.js"></script>
+</body>
+</html>
