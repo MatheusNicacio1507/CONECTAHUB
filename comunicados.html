@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConectaHub - Comunicados</title>
+    <link rel="stylesheet" type="text/css" href="static/css/comunicados_style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- =================== SIDEBAR =================== -->
+        <div class="sidebar" id="sidebar">
+            <div class="logo">
+                <img src="static/imagens/loguinha.png" alt="ConectaHub" class="logo-small">
+                <img src="static/imagens/logotipo.png" alt="ConectaHub" class="logo-large">
+            </div>
+
+            <ul class="nav-menu">
+                <li class="nav-item has-submenu active">
+                    <a href="perfil.html" class="nav-item-main">
+                        <i class="fas fa-user"></i>
+                        <span>Perfil</span>
+                        <i class="fas fa-chevron-down submenu-toggle"></i>
+                    </a>
+                    <ul class="submenu">
+                        <li class="submenu-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Atividades Recentes</span>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="chat.html"><i class="fas fa-comments"></i><span>Chat</span></a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="reuniao.html">
+                        <i class="fas fa-video"></i>
+                        <span>Reuniões</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="comunicados.html"><i class="fas fa-bullhorn"></i><span>Comunicados</span></a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="ranking.html"><i class="fas fa-trophy"></i><span>Reconhecimento</span></a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- ============================= -->
+        <!--  CONTEÚDO PRINCIPAL           -->
+        <!-- ============================= -->
+        <div class="main-content">
+
+            <!-- Barra de busca + calendário -->
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="date" id="calendar-input">
+            </div>
+
+            <!-- ============================= -->
+            <!--  SETOR: RH                   -->
+            <!-- ============================= -->
+            <div class="setor" id="RH">
+                <h2>#RH</h2>
+
+                <div class="card-container horizontal-scroll">
+                    <!-- Criar novo comunicado -->
+                    <div class="card new" data-setor="RH">+</div>
+                </div>
+            </div>
+
+            <!-- ============================= -->
+            <!--  SETOR: ENGENHARIA           -->
+            <!-- ============================= -->
+            <div class="setor" id="Engenharia">
+                <h2>#Engenharia</h2>
+
+                <div class="card-container horizontal-scroll">
+                    <div class="card new" data-setor="Engenharia">+</div>
+                </div>
+            </div>
+
+            <!-- ============================= -->
+            <!--  SETOR: PRODUÇÃO             -->
+            <!-- ============================= -->
+            <div class="setor" id="Producao">
+                <h2>#Produção</h2>
+
+                <div class="card-container horizontal-scroll">
+                    <div class="card new" data-setor="Producao">+</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ============================= -->
+        <!--  MODAL PARA CRIAR COMUNICADO  -->
+        <!-- ============================= -->
+        <div class="modal" id="modal">
+            <div class="modal-content">
+                <h3>Novo Comunicado</h3>
+
+                <textarea id="modal-text" placeholder="Digite o comunicado..."></textarea>
+
+                <button id="btn-save">Salvar</button>
+                <button id="modal-close" style="margin-top: 8px; background:#0075c9;">Cancelar</button>
+            </div>
+        </div>
+
+        <!-- ============================= -->
+        <!--  SCRIPT JS                    -->
+        <!-- ============================= -->
+        <script src="static/js/comunicados.js"></script>
+
+    </div>
+</body>
+</html>
