@@ -1,25 +1,15 @@
 // ===============================
-//  perfil_ui.js
-//  (UI: toggles + foto + event listeners)
-//  Deve ser incluido APÓS perfil_core.js
+//  perfil_ui.js (VERSÃO SIMPLIFICADA)
 // ===============================
 
-/*
-  IMPORTANTE:
-  - Este arquivo utiliza `userData` e `updateProfileDisplay()` definidos em perfil_core.js.
-  - Inclua no HTML: primeiro perfil_core.js, depois perfil_ui.js
-*/
-
 // ---------- Toggle do menu lateral ----------
-(function(){
+(function() {
     const sidebar = document.getElementById('sidebar');
-    function isMobile() { return window.innerWidth <= 680; }
-
+    
     if (sidebar) {
         sidebar.addEventListener('click', function(e) {
-            if (isMobile()) return; // no celular não expande
-
-            // Só não expande/recolhe se clicar especificamente na setinha do submenu
+            if (window.innerWidth <= 680) return;
+            
             if (!e.target.classList.contains('submenu-toggle') &&
                 !e.target.closest('.submenu-toggle') &&
                 !e.target.closest('.submenu')) {
@@ -29,69 +19,140 @@
     }
 })();
 
-
-// ---------- Funções de foto / modal ----------
+// ---------- Modal de Foto ----------
 function openPhotoModal() {
+    console.log("Abrindo modal de foto");
     const photoModal = document.getElementById('photo-modal');
     const modalProfileImg = document.getElementById('modal-profile-img');
-    if (modalProfileImg) modalProfileImg.src = window.userData.photo ? window.userData.photo : "static/imagens/user_default.png";
-    if (photoModal) photoModal.classList.add('show');
+    
+    // Usa window.userData que foi exposto pelo perfil.js
+    const userPhoto = window.userData ? window.userData.photo : null;
+    const defaultImg = "static/imagens/user_default.png";
+    
+    if (modalProfileImg) {
+        modalProfileImg.src = userPhoto || defaultImg;
+    }
+    
+    if (photoModal) {
+        photoModal.classList.add('show');
+        photoModal.style.display = 'flex';
+    }
 }
 
 function closePhotoModal() {
     const modal = document.getElementById('photo-modal');
-    if (modal) modal.classList.remove('show');
+    if (modal) {
+        modal.classList.remove('show');
+        modal.style.display = 'none';
+    }
 }
 
 function changePhoto() {
     const upload = document.getElementById('photo-upload');
-    if (upload) upload.click();
+    if (upload) {
+        upload.click();
+    }
 }
 
-function removePhoto() {
+async function removePhoto() {
     if (!confirm('Deseja remover sua foto?')) return;
-    window.userData.photo = null;
-    // salva localmente
-    localStorage.setItem('conectahub_user_data', JSON.stringify(window.userData));
-    // aplica na UI
-    const profileImg = document.getElementById('profile-img');
-    const modalImg = document.getElementById('modal-profile-img');
-    if (profileImg) profileImg.src = "static/imagens/user_default.png";
-    if (modalImg) modalImg.src = "static/imagens/user_default.png";
-    // Atualiza textos se necessário
-    if (typeof updateProfileDisplay === "function") updateProfileDisplay();
-    closePhotoModal();
+    
+    try {
+        // Chama função do perfil.js
+        if (window.removerFotoPerfil) {
+            await window.removerFotoPerfil();
+        }
+        
+        alert('Foto removida com sucesso!');
+        closePhotoModal();
+        
+    } catch (error) {
+        console.error('Erro ao remover foto:', error);
+        alert('Erro ao remover foto.');
+    }
 }
 
-// ---------- Mostra imagem atual no perfil (chamado por handlers) ----------
-function applyProfileImage() {
-    const profileImg = document.getElementById('profile-img');
-    const modalImg = document.getElementById('modal-profile-img');
-    const src = window.userData.photo ? window.userData.photo : "static/imagens/user_default.png";
-    if (profileImg) profileImg.src = src;
-    if (modalImg) modalImg.src = src;
+// ---------- Upload de Foto (COM STORAGE) ----------
+async function handlePhotoUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // Validações
+    if (!file.type.match('image.*')) {
+        alert('Por favor, selecione uma imagem (JPEG, PNG, etc).');
+        return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+        alert('A imagem deve ter no máximo 5MB.');
+        return;
+    }
+
+    try {
+        console.log("Processando arquivo:", file.name, file.size);
+        
+        // Mostra loading
+        const modal = document.getElementById('photo-modal');
+        if (modal) {
+            const originalContent = modal.querySelector('.modal-content').innerHTML;
+            modal.querySelector('.modal-content').innerHTML = `
+                <div class="modal-header">
+                    <h3>Enviando Foto...</h3>
+                </div>
+                <div style="padding: 40px; text-align: center;">
+                    <div class="spinner"></div>
+                    <p>Enviando para o servidor...</p>
+                </div>
+            `;
+        }
+        
+        // Chama função do perfil.js que usa Storage
+        if (window.salvarFotoPerfil) {
+            const resultado = await window.salvarFotoPerfil(file);
+            console.log("Resultado do upload:", resultado);
+            
+            alert('✅ Foto atualizada com sucesso!');
+            closePhotoModal();
+        } else {
+            throw new Error("Função salvarFotoPerfil não encontrada");
+        }
+        
+    } catch (error) {
+        console.error('Erro ao processar foto:', error);
+        
+        // Restaura modal em caso de erro
+        closePhotoModal();
+        setTimeout(() => openPhotoModal(), 100);
+        
+        alert('❌ Erro ao salvar foto: ' + error.message);
+    } finally {
+        // Limpa o input
+        event.target.value = '';
+    }
 }
 
-// ---------- Toggle dos stats ----------
+// ---------- Toggle dos Stats ----------
 function setupStatsToggle() {
     const statItems = document.querySelectorAll('.stat-item');
-
+    
     statItems.forEach(item => {
-        item.addEventListener('click', function(e) {
-            // Fecha outros itens abertos
+        item.addEventListener('click', function() {
+            // Fecha outros
             statItems.forEach(otherItem => {
                 if (otherItem !== item && otherItem.classList.contains('active')) {
                     otherItem.classList.remove('active');
                 }
             });
-
-            // Abre/fecha o item atual
-            item.classList.toggle('active');
+            
+            // Abre/fecha este
+            this.classList.toggle('active');
         });
     });
+    
+    console.log("Stats toggles configurados:", statItems.length);
 }
 
-// ---------- Submenu toggle (setinha) ----------
+// ---------- Submenu Toggle ----------
 function setupSubmenuToggle() {
     const submenuToggle = document.querySelector('.submenu-toggle');
     const navItem = document.querySelector('.nav-item.has-submenu');
@@ -106,8 +167,8 @@ function setupSubmenuToggle() {
         const navItemMain = document.querySelector('.nav-item-main');
         if (navItemMain) {
             navItemMain.addEventListener('click', function(e) {
-                // Só abre/fecha o submenu se não clicar na setinha
-                if (!e.target.classList.contains('submenu-toggle') && !e.target.closest('.submenu-toggle')) {
+                if (!e.target.classList.contains('submenu-toggle') && 
+                    !e.target.closest('.submenu-toggle')) {
                     navItem.classList.toggle('active');
                 }
             });
@@ -115,65 +176,62 @@ function setupSubmenuToggle() {
     }
 }
 
-// ---------- Upload da foto ----------
-function handlePhotoUpload(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    if (!file.type.match('image.*')) {
-        alert('Por favor, selecione uma imagem válida.');
-        return;
-    }
-
-    if (file.size > 5 * 1024 * 1024) {
-        alert('A imagem deve ter no máximo 5MB.');
-        return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        window.userData.photo = e.target.result;
-        // salva localmente (não usa Supabase)
-        localStorage.setItem('conectahub_user_data', JSON.stringify(window.userData));
-        // aplica na UI
-        applyProfileImage();
-        alert('Foto de perfil atualizada com sucesso!');
-        closePhotoModal();
-    };
-    reader.readAsDataURL(file);
-}
-
-// ---------- Configura listeners do modal e upload ----------
+// ---------- Configura Event Listeners ----------
 function setupUIEventListeners() {
+    // Upload de foto
     const photoUpload = document.getElementById('photo-upload');
-    if (photoUpload) photoUpload.addEventListener('change', handlePhotoUpload);
-
+    if (photoUpload) {
+        photoUpload.addEventListener('change', handlePhotoUpload);
+    }
+    
+    // Fechar modal ao clicar fora
     const photoModal = document.getElementById('photo-modal');
     if (photoModal) {
         photoModal.addEventListener('click', function(e) {
-            if (e.target === photoModal) closePhotoModal();
+            if (e.target === photoModal) {
+                closePhotoModal();
+            }
         });
     }
+    
+    // Fechar modal com ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closePhotoModal();
+        }
+    });
 }
 
-// ---------- Função pública para inicializar UI (chamada por core) ----------
+// ---------- Inicialização da UI ----------
 function setupUI() {
-    // Aplica imagem atual (caso tenha vindo de localStorage)
-    applyProfileImage();
-
+    console.log("Configurando UI...");
+    
+    // Aplica foto inicial
+    if (window.aplicarFotoNaInterface) {
+        window.aplicarFotoNaInterface();
+    }
+    
     // Configura listeners
     setupUIEventListeners();
-
-    // Configura toggles
     setupStatsToggle();
     setupSubmenuToggle();
-
-    // se quiser, podemos expor funções globais para uso inline no HTML (botões onclick)
+    
+    // Exporta funções globais
     window.openPhotoModal = openPhotoModal;
     window.closePhotoModal = closePhotoModal;
     window.changePhoto = changePhoto;
     window.removePhoto = removePhoto;
+    
+    console.log("UI configurada com sucesso");
 }
 
-// Exponha para o core chamar (se core rodar antes, chamará; se core rodar depois, user pode chamar manualmente)
+// Inicializa quando o DOM estiver pronto
+document.addEventListener('DOMContentLoaded', function() {
+    // Espera um pouco para garantir que perfil.js já carregou
+    setTimeout(() => {
+        setupUI();
+    }, 100);
+});
+
+// Exporta para uso
 window.setupUI = setupUI;
