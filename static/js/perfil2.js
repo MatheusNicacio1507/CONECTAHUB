@@ -1,151 +1,100 @@
-/* ---------- Toggle do menu lateral ---------- */    
-const sidebar = document.getElementById('sidebar');   
-function isMobile() {
-    return window.innerWidth <= 680;
-}
-  
-sidebar.addEventListener('click', function(e) {    
-    if (isMobile()) return; // no celular não expande
-    
-    // Só não expande/recolhe se clicar especificamente na setinha do submenu
-    if (!e.target.classList.contains('submenu-toggle') && 
-        !e.target.closest('.submenu-toggle') &&
-        !e.target.closest('.submenu')) {    
-        sidebar.classList.toggle('expanded');    
-    }    
-});
-  
-let userData = {  
-name: "",  
-role: "Analista de Marketing",  
-department: "Marketing",  
-cpf: "123.456.789-00",  
-email: "maria.silva@empresa.com",  
-phone: "(11) 98765-4321",  
-photo: null,  
-score: 1250,  
-badges: 8  
-};  
-  
-function openPhotoModal() {  
-const photoModal = document.getElementById('photo-modal');  
-const modalProfileImg = document.getElementById('modal-profile-img');  
-photoModal.classList.add('show');  
-modalProfileImg.src = userData.photo ? userData.photo : "";  
-}  
-  
-function closePhotoModal() {  
-document.getElementById('photo-modal').classList.remove('show');  
-}  
-  
-function changePhoto() {  
-document.getElementById('photo-upload').click();  
-}  
-  
-function removePhoto() {  
-if (confirm('Tem certeza que deseja remover sua foto de perfil?')) {  
-    userData.photo = null;  
-    updateProfileDisplay();  
-    localStorage.setItem('conectahub_user_data', JSON.stringify(userData));  
-    alert('Foto removida com sucesso!');  
-    closePhotoModal();  
-}  
-}  
-  
-function updateProfileDisplay() {  
-document.getElementById('user-name').textContent = userData.name;  
-document.getElementById('display-name').textContent = userData.name;  
-document.getElementById('display-role').textContent = userData.role;  
-document.getElementById('display-department').textContent = userData.department;  
-document.getElementById('display-cpf').textContent = userData.cpf;  
-  
-const profileImg = document.getElementById('profile-img');    
-profileImg.src = userData.photo ? userData.photo : "";    
-}  
+// ===============================
+//  perfil_core.js (corrigido e completo)
+//  Core: dados do usuário + display + init
+// ===============================
 
-/* ---------- Toggle dos stats ---------- */    
-function setupStatsToggle() {  
-const statItems = document.querySelectorAll('.stat-item');  
-  
-statItems.forEach(item => {  
-    item.addEventListener('click', function(e) {  
-        // Fecha outros itens abertos
-        statItems.forEach(otherItem => {
-            if (otherItem !== item && otherItem.classList.contains('active')) {
-                otherItem.classList.remove('active');
-            }
-        });
-        
-        // Abre/fecha o item atual  
-        item.classList.toggle('active');  
-    });  
-});  
-}  
-  
-function setupSubmenuToggle() {  
-const submenuToggle = document.querySelector('.submenu-toggle');  
-const navItem = document.querySelector('.nav-item.has-submenu');  
-  
-if (submenuToggle && navItem) {      
-    submenuToggle.addEventListener('click', function(e) {      
-        e.stopPropagation(); // IMPEDE QUE FECHE O MENU INTEIRO
-        e.preventDefault(); // ADICIONADO PARA MAIS SEGURANÇA
-        navItem.classList.toggle('active');      
-    });      
-          
-    const navItemMain = document.querySelector('.nav-item-main');      
-    navItemMain.addEventListener('click', function(e) {      
-        // Só abre/fecha o submenu se não clicar na setinha
-        if (!e.target.classList.contains('submenu-toggle') && !e.target.closest('.submenu-toggle')) {      
-            navItem.classList.toggle('active');      
-        }      
-    });      
-}  
-}  
-  
-function handlePhotoUpload(event) {  
-const file = event.target.files[0];  
-if (file) {  
-    if (!file.type.match('image.*')) {    
-        alert('Por favor, selecione uma imagem válida.');    
-        return;    
-    }    
-  
-    if (file.size > 5 * 1024 * 1024) {      
-        alert('A imagem deve ter no máximo 5MB.');      
-        return;      
-    }    
-  
-    const reader = new FileReader();      
-    reader.onload = function(e) {      
-        userData.photo = e.target.result;      
-        updateProfileDisplay();      
-        localStorage.setItem('conectahub_user_data', JSON.stringify(userData));      
-        alert('Foto de perfil atualizada com sucesso!');      
-        closePhotoModal();      
-    };      
-    reader.readAsDataURL(file);      
-}  
-}  
-  
-function setupEventListeners() {  
-const photoUpload = document.getElementById('photo-upload');  
-photoUpload.addEventListener('change', handlePhotoUpload);  
-  
-const photoModal = document.getElementById('photo-modal');      
-photoModal.addEventListener('click', function(e) {      
-    if (e.target === photoModal) closePhotoModal();    
-});  
-}  
-  
-function init() {  
-const savedData = localStorage.getItem('conectahub_user_data');  
-if (savedData) userData = { ...userData, ...JSON.parse(savedData) };  
-  
-updateProfileDisplay();      
-setupEventListeners();      
-setupSubmenuToggle();  
-setupStatsToggle();  
-}  
-  
-document.addEventListener('DOMContentLoaded', init);
+// ===============================
+//   VERIFICA SE O USUÁRIO ESTÁ LOGADO
+// ===============================
+document.addEventListener("DOMContentLoaded", () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (!user) {
+        alert("Você precisa fazer login.");
+        window.location.href = "index.html";
+        return;
+    }
+
+    // Preenche dados vindos do login:
+    userData.name = user.nome || "";
+    userData.department = user.setor || "";
+    userData.cpf = user.cpf || " — ";
+    userData.email = user.email || " — ";
+
+    // Atualiza a tela imediatamente com os dados do login
+    updateProfileDisplay();
+
+    // Continua a inicialização (foto, localStorage, UI...)
+    init();
+});
+
+// ============================================
+//  DADOS DO USUÁRIO
+// ============================================
+let userData = {
+    name: "",
+    department: "",
+    cpf: "",
+    email: "",
+    photo: null,
+    score: 0,
+    badges: 0
+};
+
+window.userData = userData;
+
+// ============================================
+//  FUNÇÕES DE ATUALIZAÇÃO DO PERFIL (CORE)
+// ============================================
+function updateProfileDisplay() {
+    const elUserName = document.getElementById("user-name");
+    const elDisplayName = document.getElementById("display-name");
+    const elDept = document.getElementById("display-department");
+    const elCpf = document.getElementById("display-cpf");
+    const elEmail = document.getElementById("display-email");
+
+    if (elUserName) elUserName.textContent = userData.name || "Usuário";
+    if (elDisplayName) elDisplayName.textContent = userData.name || "Usuário";
+    if (elDept) elDept.textContent = userData.department || "Setor";
+
+    if (elEmail) elEmail.textContent = userData.email || " — ";
+    if (elCpf) elCpf.textContent = userData.cpf || " — ";
+
+    const statScore = document.querySelector("#stat-pontuacao .stat-value");
+    const statBadges = document.querySelector("#stat-medalhas .stat-value");
+
+    if (statScore) statScore.textContent = typeof userData.score === "number" ? userData.score : 0;
+    if (statBadges) statBadges.textContent = typeof userData.badges === "number" ? userData.badges : 0;
+}
+
+// ============================================
+//  INICIALIZAÇÃO (CORE)
+// ============================================
+function init() {
+    const savedData = localStorage.getItem("conectahub_user_data");
+
+    if (savedData) {
+        try {
+            const parsed = JSON.parse(savedData);
+
+            // Mescla salvamento local (foto, etc.)
+            userData = { ...userData, ...parsed };
+
+            window.userData = userData;
+        } catch (err) {
+            console.warn("Erro ao ler conectahub_user_data:", err);
+        }
+    }
+
+    // Atualiza a UI com nome/email/cpf/setor/foto
+    updateProfileDisplay();
+
+    // Inicializa UI (do arquivo perfil_ui.js)
+    if (typeof setupUI === "function") {
+        try {
+            setupUI();
+        } catch (err) {
+            console.error("Erro em setupUI:", err);
+        }
+    }
+}

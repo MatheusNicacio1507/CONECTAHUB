@@ -4,20 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil - CONECTAHUB</title>
-    <link rel="stylesheet" href="static/css/perfil2_style.css">
+    <link rel="stylesheet" href="static/css/perfil_style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="static/imagens/icone1.png">
+
 </head>
 <body>
     <div class="container">
         <!-- =================== SIDEBAR =================== -->
         <div class="sidebar" id="sidebar">
             <div class="logo">
-                <!-- Logo para menu RECOLHIDO (ícone pequeno) -->
                 <img src="static/imagens/loguinha.png" alt="ConectaHub" class="logo-small">
-                <!-- Logo para menu EXPANDIDO (logo completa) -->
                 <img src="static/imagens/logotipo.png" alt="ConectaHub" class="logo-large">
             </div>
+
             <ul class="nav-menu">
                 <li class="nav-item has-submenu active">
                     <a href="perfil.html" class="nav-item-main">
@@ -34,10 +34,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="#">
-                        <i class="fas fa-comments"></i>
-                        <span>Chat</span>
-                    </a>
+                    <a href="chat.html"><i class="fas fa-comments"></i><span>Chat</span></a>
                 </li>
 
                 <li class="nav-item">
@@ -48,19 +45,12 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="#">
-                        <i class="fas fa-bullhorn"></i>
-                        <span>Comunicados</span>
-                    </a>
+                    <a href="comunicados.html"><i class="fas fa-bullhorn"></i><span>Comunicados</span></a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="ranking.html">
-                        <i class="fas fa-trophy"></i>
-                        <span>Reconhecimento</span>
-                    </a>
+                    <a href="ranking.html"><i class="fas fa-trophy"></i><span>Reconhecimento</span></a>
                 </li>
-
             </ul>
         </div>
 
@@ -83,32 +73,35 @@
                             <img src="" alt="Foto de perfil" id="profile-img">      
                         </div>      
                     </div>      
+                    <div class="detail-item">
+                        <div class="detail-label">Email:</div>
+                        <div class="detail-value" id="display-email">Email</div>
+                    </div>
 
-                    <div class="profile-details">      
-                        <div class="detail-item">      
-                            <div class="detail-label">Nome:</div>      
-                            <div class="detail-value" id="display-name">Seu nome</div>      
-                        </div>      
+                    <div class="detail-item">
+                        <div class="detail-label">CPF:</div>
+                        <div class="detail-value" id="display-cpf">CPF</div>
+                    </div>
 
-                        <div class="detail-item">      
-                            <div class="detail-label">Cargo:</div>      
-                            <div class="detail-value" id="display-role">Analista de Marketing</div>      
-                        </div>      
+                    <div class="profile-details">
 
-                        <div class="detail-item">      
-                            <div class="detail-label">Setor:</div>      
-                            <div class="detail-value" id="display-department">Marketing</div>      
-                        </div>      
+                        <div class="detail-item">
+                            <div class="detail-label">Nome:</div>
+                            <div class="detail-value" id="display-name">Seu nome</div>
+                        </div>
 
-                        <div class="detail-item">      
-                            <div class="detail-label">CPF:</div>      
-                            <div class="detail-value" id="display-cpf">123.456.789-00</div>      
-                        </div>      
+                        <div class="detail-item">
+
+                        <div class="detail-item">
+                            <div class="detail-label">Setor:</div>
+                            <div class="detail-value" id="display-department">Setor</div>
+                        </div>
+
                     </div>      
                 </div>      
-            </div>      
+            </div>
 
-            <!-- =================== STATS SIMPLES =================== -->
+            <!-- =================== STATS =================== -->
             <div class="stats-section">      
                 <div class="stat-item" id="stat-pontuacao">
                     <div class="stat-header">
@@ -154,14 +147,13 @@
 
                 <button class="photo-btn photo-btn-dark" onclick="removePhoto()">
                     <i class="fas fa-trash"></i> Remover Foto
-                </button>
+                </button>   
             </div>
         </div>
     </div>
 
-    <!-- INPUT OCULTO PARA UPLOAD -->
     <input type="file" id="photo-upload" accept="image/*" style="display: none;">
-
     <script src="static/js/perfil2.js"></script>
+    <script src="static/js/perfil_ui.js"></script>
 </body>
 </html>

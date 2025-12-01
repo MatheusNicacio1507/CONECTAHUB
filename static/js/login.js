@@ -53,10 +53,13 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        // 🔥 AGORA SALVA EMAIL + CPF JUNTO COM OS OUTROS
         localStorage.setItem("user", JSON.stringify({
             id: data.id,
             nome: data.nome,
-            setor: data.setor
+            setor: data.setor,
+            email: data.email,  // <---
+            cpf: data.cpf       // <---
         }));
 
         window.location.href = "perfil.html";

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <link rel="icon" href="static/imagens/icone1.png">
 
 </head>
+
 <body>
     <div class="container">
         <!-- =================== SIDEBAR =================== -->
@@ -55,24 +57,30 @@
         </div>
 
         <!-- =================== MAIN CONTENT =================== -->
-        <div class="main-content">      
-            <div class="header">      
-                <div class="welcome">      
-                    <h2>Olá, <span id="user-name">Usuário</span></h2>      
-                </div>      
-            </div>      
+        <div class="main-content">
+            <div class="header">
+                <div class="welcome">
+                    <h2>Olá, <span id="user-name">Usuário</span></h2>
+                </div>
 
-            <div class="profile-section">      
-                <div class="profile-card">      
-                    <button class="settings-btn" onclick="openPhotoModal()">      
-                        <i class="fas fa-cog"></i>      
-                    </button>      
-                          
-                    <div class="profile-header">      
-                        <div class="profile-picture" onclick="openPhotoModal()">      
-                            <img src="" alt="Foto de perfil" id="profile-img">      
-                        </div>      
-                    </div>      
+                <!-- BOTÃO DE LOGOUT NO CANTO DIREITO -->
+                <button id="logout-btn" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </button>
+            </div>
+
+
+            <div class="profile-section">
+                <div class="profile-card">
+                    <button class="settings-btn" onclick="openPhotoModal()">
+                        <i class="fas fa-cog"></i>
+                    </button>
+
+                    <div class="profile-header">
+                        <div class="profile-picture" onclick="openPhotoModal()">
+                            <img src="" alt="Foto de perfil" id="profile-img">
+                        </div>
+                    </div>
 
                     <div class="profile-details">
 
@@ -82,66 +90,70 @@
                         </div>
 
                         <div class="detail-item">
-                            <div class="detail-label">Setor:</div>
-                            <div class="detail-value" id="display-department">Setor</div>
+
+                            <div class="detail-item">
+                                <div class="detail-label">Setor:</div>
+                                <div class="detail-value" id="display-department">Setor</div>
+                            </div>
+
                         </div>
-
-                    </div>      
-                </div>      
-            </div>
-
-            <!-- =================== STATS =================== -->
-            <div class="stats-section">      
-                <div class="stat-item" id="stat-pontuacao">
-                    <div class="stat-header">
-                        <span>Pontuação Total</span>
-                        <i class="fas fa-chevron-down stat-toggle"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="stat-value">1,250</div>
                     </div>
                 </div>
 
-                <div class="stat-item" id="stat-medalhas">
-                    <div class="stat-header">
-                        <span>Medalhas Conquistadas</span>
-                        <i class="fas fa-chevron-down stat-toggle"></i>
+                <!-- =================== STATS =================== -->
+                <div class="stats-section">
+                    <div class="stat-item" id="stat-pontuacao">
+                        <div class="stat-header">
+                            <span>Pontuação Total</span>
+                            <i class="fas fa-chevron-down stat-toggle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value">1,250</div>
+                        </div>
                     </div>
-                    <div class="stat-content">
-                        <div class="stat-value">8</div>
+
+                    <div class="stat-item" id="stat-medalhas">
+                        <div class="stat-header">
+                            <span>Medalhas Conquistadas</span>
+                            <i class="fas fa-chevron-down stat-toggle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value">8</div>
+                        </div>
                     </div>
                 </div>
-            </div>      
-        </div>
-    </div>
-
-    <!-- =================== MODAL DE FOTO =================== -->
-    <div class="modal" id="photo-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Configurar Foto de Perfil</h3>
-                <button class="close-btn" onclick="closePhotoModal()">&times;</button>
-            </div>
-
-            <div class="current-photo">
-                <div class="modal-photo">
-                    <img src="" alt="Foto atual" id="modal-profile-img">
-                </div>
-            </div>
-
-            <div class="photo-options">
-                <button class="photo-btn photo-btn-primary" onclick="changePhoto()">
-                    <i class="fas fa-camera"></i> Alterar Foto
-                </button>
-
-                <button class="photo-btn photo-btn-dark" onclick="removePhoto()">
-                    <i class="fas fa-trash"></i> Remover Foto
-                </button>   
             </div>
         </div>
-    </div>
 
-    <input type="file" id="photo-upload" accept="image/*" style="display: none;">
-    <script src="static/js/perfil.js"></script>
+        <!-- =================== MODAL DE FOTO =================== -->
+        <div class="modal" id="photo-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Configurar Foto de Perfil</h3>
+                    <button class="close-btn" onclick="closePhotoModal()">&times;</button>
+                </div>
+
+                <div class="current-photo">
+                    <div class="modal-photo">
+                        <img src="" alt="Foto atual" id="modal-profile-img">
+                    </div>
+                </div>
+
+                <div class="photo-options">
+                    <button class="photo-btn photo-btn-primary" onclick="changePhoto()">
+                        <i class="fas fa-camera"></i> Alterar Foto
+                    </button>
+
+                    <button class="photo-btn photo-btn-dark" onclick="removePhoto()">
+                        <i class="fas fa-trash"></i> Remover Foto
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <input type="file" id="photo-upload" accept="image/*" style="display: none;">
+        <script src="static/js/perfil.js"></script>
+        <script src="static/js/perfil_ui.js"></script>
 </body>
+
 </html>

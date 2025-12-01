@@ -879,3 +879,38 @@
             padding: 20px !important;
         }
     }
+
+    
+/* Botão no canto superior direito */
+.logout-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%); /* mantém botão alinhado */
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    font-size: 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.2s;
+}
+
+
+.header {
+    display: flex;
+    justify-content: center; /* CENTRALIZADO DE NOVO */
+    align-items: center;
+    width: 100%;
+    position: relative;
+}
+
+
+.logout-btn:hover {
+    background: #e60000;
+}
+
