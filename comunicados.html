@@ -1,12 +1,33 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ConectaHub - Comunicados</title>
     <link rel="stylesheet" type="text/css" href="static/css/comunicados_style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        // Garantir que supabase seja global
+        window.supabaseLoaded = new Promise((resolve) => {
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js';
+            script.crossOrigin = 'anonymous';
+            script.onload = () => {
+                console.log('✅ Biblioteca Supabase carregada');
+                resolve();
+            };
+            script.onerror = () => {
+                console.error('❌ Falha ao carregar biblioteca Supabase');
+                resolve(); // Resolve mesmo com erro para continuar
+            };
+            document.head.appendChild(script);
+        });
+    </script>
+    
+    <!-- Seu JavaScript -->
 </head>
+
 <body>
     <div class="container">
         <!-- =================== SIDEBAR =================== -->
@@ -116,8 +137,8 @@
         <!-- ============================= -->
         <!--  SCRIPT JS                    -->
         <!-- ============================= -->
-        <script src="static/js/comunicados.js"></script>
-
+        <script src="static/js/comunicados.js" defer></script>
     </div>
 </body>
+
 </html>

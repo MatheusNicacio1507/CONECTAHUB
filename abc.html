@@ -1,121 +1,135 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ranking - CONECTAHUB</title>
-    <!-- <link rel="stylesheet" href="static/css/rank_style.css"> -->
-    <link rel="stylesheet" href="static/css/abc.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" href="static/imagens/icone1.png">
+<div class="chat-area">
 
-</head>
-<body>
-    <div class="container">
-        <!-- =================== SIDEBAR =================== -->
-<div class="sidebar" id="sidebar">
-    <div class="logo">
-        <img src="static/imagens/loguinha.png" alt="ConectaHub" class="logo-small">
-        <img src="static/imagens/logotipo.png" alt="ConectaHub" class="logo-large">
-    </div>
+                <!-- Topo do chat -->
+                <div class="chat-header">
+                    <span class="chat-name"><b># RH </b><i class="fas fa-chevron-down"></i></span>
 
-    <ul class="nav-menu">
-        <li class="nav-item has-submenu active">
-            <a href="perfil.html" class="nav-item-main">
-                <i class="fas fa-user"></i>
-                <span>Perfil</span>
-                <i class="fas fa-chevron-down submenu-toggle"></i>
-            </a>
-            <ul class="submenu">
-                <li class="submenu-item">
-                    <i class="fas fa-clock"></i>
-                    <span>Atividades Recentes</span>
-                </li>
-            </ul>
-        </li>
+                    <div class="chat-actions">
+                        <button class="b-icon">★</button>
+                        <button class="b-icon">👥 32</button>
+                        <button class="b-icon">⋯</button>
 
-        <li class="nav-item">
-            <a href="chat.html"><i class="fas fa-comments"></i><span>Chat</span></a>
-        </li>
-
-        <li class="nav-item">
-            <a href="reuniao.html">
-                <i class="fas fa-video"></i>
-                <span>Reuniões</span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a href="comunicados.html"><i class="fas fa-bullhorn"></i><span>Comunicados</span></a>
-        </li>
-
-        <li class="nav-item">
-            <a href="ranking.html"><i class="fas fa-trophy"></i><span>Reconhecimento</span></a>
-        </li>
-    </ul>
-</div>
-
-
-        <!-- =================== MAIN CONTENT =================== -->
-        <div class="main-content">
-            <div class="ranking-section">
-                <!-- ÚNICA telinha de ranking que muda -->
-                <div class="ranking-card">
-                    <div class="ranking-header">
-                        <h2>Ranking</h2>
-                    </div>
-                    <h3 class="ranking-title" id="current-department"># RH</h3>
-                    <h4 class="ranking-subtitle">Destaques do mês</h4>
-                    
-                    <div class="ranking-positions" id="ranking-content">
-                        <!-- Conteúdo será carregado dinamicamente -->
-                        <div class="position-card first-place">
-                            <div class="position-number">1º</div>
-                            <div class="position-info">
-                                <div class="position-name">João Silva</div>
-                                <div class="position-points">1.850 pontos</div>
-                            </div>
-                            <i class="fas fa-crown crown-icon"></i>
-                        </div>
-
-                        <div class="position-card second-place">
-                            <div class="position-number">2º</div>
-                            <div class="position-info">
-                                <div class="position-name">Maria Santos</div>
-                                <div class="position-points">1.720 pontos</div>
-                            </div>
-                        </div>
-
-                        <div class="position-card third-place">
-                            <div class="position-number">3º</div>
-                            <div class="position-info">
-                                <div class="position-name">Pedro Oliveira</div>
-                                <div class="position-points">1.650 pontos</div>
-                            </div>
+                        <div class="right-actions">
+                            <i class="fas fa-bell"></i>
+                            <i class="fas fa-phone"></i>
+                            <input type="text" class="search" placeholder="Buscar">
+                            <i class="fas fa-at"></i>
+                            <i class="fas fa-bell"></i>
+                            <i class="fas fa-gear"></i>
                         </div>
                     </div>
                 </div>
 
-                <!-- Conquistas Pessoais -->
-                <div class="achievements-section">            
-                    <div class="department-badges">
-                        <div class="department-badge active" onclick="showDepartment('rh')">
-                            <span class="badge-text"># RH</span>
-                        </div>
+                <!-- Lista de mensagens/cards -->
+                <div class="chat-users" id="chat-messages">
+                    <!-- Mensagens carregadas via JavaScript -->
+                </div>
 
-                        <div class="department-badge" onclick="showDepartment('engenharia')">
-                            <span class="badge-text"># Engenharia</span>
-                        </div>
-
-                        <div class="department-badge" onclick="showDepartment('producao')">
-                            <span class="badge-text"># Produção</span>
-                        </div>
-                    </div>
+                <!-- Campo de mensagem -->
+                <div class="chat-input">
+                    <input type="text" id="chat-input-msg" placeholder="Digite uma mensagem...">
+                    <button class="send" id="chat-send-btn"><i class="fas fa-paper-plane"></i></button>
                 </div>
             </div>
+
         </div>
     </div>
 
-    <script src="static/js/rank.js"></script>
+    <script>
+        /* =============================
+              CHAT VISUAL - LOCALSTORAGE
+           ============================= */
+
+        const chatBox = document.getElementById("chat-messages");
+        const inputMsg = document.getElementById("chat-input-msg");
+        const btnSend = document.getElementById("chat-send-btn");
+
+        function loadMessages() {
+            const saved = JSON.parse(localStorage.getItem("chat_msgs")) || [];
+            chatBox.innerHTML = "";
+
+            saved.forEach(msg => {
+                const card = document.createElement("div");
+                card.className = msg.me ? "message-card-me" : "message-card";
+
+                card.innerHTML = `
+            <div class="avatar"></div>
+            <div class="user-data">
+                <span class="user">${msg.me ? "Eu" : msg.user}:</span><br>
+                <span class="msg">${msg.text}</span>
+                <span class="time">${msg.time}</span>
+            </div>
+        `;
+
+                chatBox.appendChild(card);
+            });
+
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function sendMessage() {
+            const text = inputMsg.value.trim();
+            if (text.length === 0) return;
+
+            const now = new Date();
+            const time = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+            const newMsg = {
+                user: "Pessoa",
+                text,
+                time,
+                me: true
+            };
+
+            const saved = JSON.parse(localStorage.getItem("chat_msgs")) || [];
+            saved.push(newMsg);
+            localStorage.setItem("chat_msgs", JSON.stringify(saved));
+
+            inputMsg.value = "";
+            loadMessages();
+        }
+
+        btnSend.addEventListener("click", sendMessage);
+        inputMsg.addEventListener("keypress", e => {
+            if (e.key === "Enter") sendMessage();
+        });
+
+        // Carrega mensagens ao abrir a página
+        loadMessages();
+    </script>
+
+
+    <script src="static/js/chat.js"></script>
 </body>
+
 </html>
+
+
+
+<div class="chat-users">
+                    <div class="message-card">
+                        <div class="avatar"></div>
+                        <div class="user-data">
+                            <span class="user">Pessoa 1:</span><br>
+                            <span class="msg">...</span>
+                            <span class="time">00:00</span>
+                        </div>
+                    </div>
+
+                    <div class="message-card">
+                        <div class="avatar"></div>
+                        <div class="user-data">
+                            <span class="user">Pessoa 2:</span><br>
+                            <span class="msg">...</span>
+                            <span class="time">00:00</span>
+                        </div>
+                    </div>
+
+                    <div class="message-card">
+                        <div class="avatar"></div>
+                        <div class="user-data">
+                            <span class="user">Pessoa 3:</span><br>
+                            <span class="msg">...</span>
+                            <span class="time">00:00</span>
+                        </div>
+                    </div>

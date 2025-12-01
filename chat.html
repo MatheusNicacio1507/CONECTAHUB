@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -95,54 +96,22 @@
                 </div>
 
                 <!-- Lista de mensagens/cards -->
-                <div class="chat-users">
-                    <div class="message-card">
-                        <div class="avatar"></div>
-                        <div class="user-data">
-                            <span class="user">Pessoa 1:</span><br>
-                            <span class="msg">...</span>
-                            <span class="time">00:00</span>
-                        </div>
-                    </div>
-
-                    <div class="message-card">
-                        <div class="avatar"></div>
-                        <div class="user-data">
-                            <span class="user">Pessoa 2:</span><br>
-                            <span class="msg">...</span>
-                            <span class="time">00:00</span>
-                        </div>
-                    </div>
-
-                    <div class="message-card">
-                        <div class="avatar"></div>
-                        <div class="user-data">
-                            <span class="user">Pessoa 3:</span><br>
-                            <span class="msg">...</span>
-                            <span class="time">00:00</span>
-                        </div>
-                    </div>
-
-                    <div class="message-card-me">
-                        <div class="avatar"></div>
-                        <div class="user-data">
-                            <span class="user">Eu:</span><br>
-                            <span class="msg">...</span>
-                            <span class="time">00:00</span>
-                        </div>
-                    </div>
+                <div class="chat-users" id="chat-messages">
+                    <!-- Mensagens carregadas via JavaScript -->
                 </div>
 
                 <!-- Campo de mensagem -->
                 <div class="chat-input">
-                    <input type="text" placeholder="">
-                    <button class="send"><i class="fas fa-paper-plane"></i></button>
+                    <input type="text" id="chat-input-msg" placeholder="Digite uma mensagem...">
+                    <button class="send" id="chat-send-btn"><i class="fas fa-paper-plane"></i></button>
                 </div>
-
             </div>
         </div>
+
+    </div>
     </div>
 
     <script src="static/js/chat.js"></script>
 </body>
+
 </html>
