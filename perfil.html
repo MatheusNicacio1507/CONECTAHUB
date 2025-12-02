@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil - CONECTAHUB</title>
     <link rel="stylesheet" href="static/css/perfil_style.css">
+    <link rel="stylesheet" type="text/css" href="static/css/sidebar_style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="static/imagens/icone1.png">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
@@ -53,6 +54,14 @@
                 <li class="nav-item">
                     <a href="ranking.html"><i class="fas fa-trophy"></i><span>Reconhecimento</span></a>
                 </li>
+
+                <!-- ESPAÇO PARA O BOTÃO DE LOGOUT -->
+                <div class="logout-container">
+                    <!-- BOTÃO DE LOGOUT CENTRALIZADO NO FINAL -->
+                    <button id="logout-btn" class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i> <span class="logout-text">Sair</span>
+                    </button>
+                </div>
             </ul>
         </div>
 
@@ -62,13 +71,7 @@
                 <div class="welcome">
                     <h2>Olá, <span id="user-name">Usuário</span></h2>
                 </div>
-
-                <!-- BOTÃO DE LOGOUT NO CANTO DIREITO -->
-                <button id="logout-btn" class="logout-btn">
-                    <i class="fas fa-sign-out-alt"></i> Sair
-                </button>
             </div>
-
 
             <div class="profile-section">
                 <div class="profile-card">
@@ -154,6 +157,7 @@
         <input type="file" id="photo-upload" accept="image/*" style="display: none;">
         <script src="static/js/perfil.js"></script>
         <script src="static/js/perfil_ui.js"></script>
+        <script src="static/js/sidebar.js" defer></script>
 </body>
 
 </html>

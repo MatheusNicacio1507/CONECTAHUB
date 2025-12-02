@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ConectaHub - Comunicados</title>
     <link rel="stylesheet" type="text/css" href="static/css/comunicados_style.css">
+    <link rel="stylesheet" type="text/css" href="static/css/sidebar_style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         // Garantir que supabase seja global
@@ -24,7 +25,7 @@
             document.head.appendChild(script);
         });
     </script>
-    
+
     <!-- Seu JavaScript -->
 </head>
 
@@ -70,6 +71,14 @@
                 <li class="nav-item">
                     <a href="ranking.html"><i class="fas fa-trophy"></i><span>Reconhecimento</span></a>
                 </li>
+
+                <!-- ESPAÇO PARA O BOTÃO DE LOGOUT -->
+                <div class="logout-container">
+                    <!-- BOTÃO DE LOGOUT CENTRALIZADO NO FINAL -->
+                    <button id="logout-btn" class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i> <span class="logout-text">Sair</span>
+                    </button>
+                </div>
             </ul>
         </div>
 
@@ -138,6 +147,7 @@
         <!--  SCRIPT JS                    -->
         <!-- ============================= -->
         <script src="static/js/comunicados.js" defer></script>
+        <script src="static/js/sidebar.js" defer></script>
     </div>
 </body>
 

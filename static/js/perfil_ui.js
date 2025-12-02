@@ -2,23 +2,6 @@
 //  perfil_ui.js (VERSÃO SIMPLIFICADA)
 // ===============================
 
-// ---------- Toggle do menu lateral ----------
-(function() {
-    const sidebar = document.getElementById('sidebar');
-    
-    if (sidebar) {
-        sidebar.addEventListener('click', function(e) {
-            if (window.innerWidth <= 680) return;
-            
-            if (!e.target.classList.contains('submenu-toggle') &&
-                !e.target.closest('.submenu-toggle') &&
-                !e.target.closest('.submenu')) {
-                sidebar.classList.toggle('expanded');
-            }
-        });
-    }
-})();
-
 // ---------- Modal de Foto ----------
 function openPhotoModal() {
     console.log("Abrindo modal de foto");

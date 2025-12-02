@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ranking - CONECTAHUB</title>
     <link rel="stylesheet" href="static/css/rank_style.css">
+    <link rel="stylesheet" type="text/css" href="static/css/sidebar_style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="static/imagens/icone1.png">
 
 </head>
+
 <body>
     <div class="container">
         <!-- =================== SIDEBAR =================== -->
@@ -51,6 +54,14 @@
                 <li class="nav-item">
                     <a href="ranking.html"><i class="fas fa-trophy"></i><span>Reconhecimento</span></a>
                 </li>
+
+                <!-- ESPAÇO PARA O BOTÃO DE LOGOUT -->
+                <div class="logout-container">
+                    <!-- BOTÃO DE LOGOUT CENTRALIZADO NO FINAL -->
+                    <button id="logout-btn" class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i> <span class="logout-text">Sair</span>
+                    </button>
+                </div>
             </ul>
         </div>
 
@@ -65,7 +76,7 @@
                     </div>
                     <h3 class="ranking-title" id="current-department"># RH</h3>
                     <h4 class="ranking-subtitle">Destaques do mês</h4>
-                    
+
                     <div class="ranking-positions" id="ranking-content">
                         <!-- Conteúdo será carregado dinamicamente -->
                         <div class="position-card first-place">
@@ -96,7 +107,7 @@
                 </div>
 
                 <!-- Conquistas Pessoais -->
-                <div class="achievements-section">            
+                <div class="achievements-section">
                     <div class="department-badges">
                         <div class="department-badge active" onclick="showDepartment('rh')">
                             <span class="badge-text"># RH</span>
@@ -116,5 +127,7 @@
     </div>
 
     <script src="static/js/rank.js"></script>
+    <script src="static/js/sidebar.js" defer></script>
 </body>
+
 </html>

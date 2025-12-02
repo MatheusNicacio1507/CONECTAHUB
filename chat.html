@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat - CONECTAHUB</title>
     <link rel="stylesheet" href="static/css/chat_style.css">
+    <link rel="stylesheet" type="text/css" href="static/css/sidebar_style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="static/imagens/icone1.png">
 
@@ -47,7 +48,7 @@
             </div>
 
             <ul class="nav-menu">
-                <li class="nav-item has-submenu">
+                <li class="nav-item has-submenu active">
                     <a href="perfil.html" class="nav-item-main">
                         <i class="fas fa-user"></i>
                         <span>Perfil</span>
@@ -61,7 +62,7 @@
                     </ul>
                 </li>
 
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a href="chat.html"><i class="fas fa-comments"></i><span>Chat</span></a>
                 </li>
 
@@ -79,9 +80,17 @@
                 <li class="nav-item">
                     <a href="ranking.html"><i class="fas fa-trophy"></i><span>Reconhecimento</span></a>
                 </li>
+
+                <!-- ESPAÇO PARA O BOTÃO DE LOGOUT -->
+                <div class="logout-container">
+                    <!-- BOTÃO DE LOGOUT CENTRALIZADO NO FINAL -->
+                    <button id="logout-btn" class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i> <span class="logout-text">Sair</span>
+                    </button>
+                </div>
             </ul>
         </div>
-
+        
         <!-- =================== CHAT COMPLETO =================== -->
         <div class="main-content">
             <!-- Painel de canais -->
@@ -178,6 +187,7 @@
     </div>
 
     <script src="static/js/chat.js"></script>
+    <script src="static/js/sidebar.js" defer></script>
 </body>
 
 </html>

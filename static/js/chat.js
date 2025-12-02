@@ -1,20 +1,3 @@
-/* ---------- Toggle do menu lateral ---------- */    
-const sidebar = document.getElementById('sidebar');   
-function isMobile() {
-    return window.innerWidth <= 680;
-}
-  
-sidebar.addEventListener('click', function(e) {    
-    if (isMobile()) return; // no celular não expande
-    
-    // Só não expande/recolhe se clicar especificamente na setinha do submenu
-    if (!e.target.classList.contains('submenu-toggle') && 
-        !e.target.closest('.submenu-toggle') &&
-        !e.target.closest('.submenu')) {    
-        sidebar.classList.toggle('expanded');    
-    }    
-});
-
 // ===================================================
 // chat.js - CHAT COMPLETO COM MENSAGENS DIRETAS (CORRIGIDO)
 // ===================================================
