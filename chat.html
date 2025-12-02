@@ -8,12 +8,37 @@
     <link rel="stylesheet" href="static/css/chat_style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="static/imagens/icone1.png">
-
+    
+    <!-- SUPABASE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <style>
+        /* Adicionar para indicador de digitação */
+        .typing-indicator {
+            padding: 10px;
+            font-size: 12px;
+            color: #666;
+            font-style: italic;
+        }
+        
+        /* Notificação de nova mensagem */
+        .new-message-notification {
+            background: #667eea;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
     <div class="container">
-
         <!-- =================== SIDEBAR =================== -->
         <div class="sidebar" id="sidebar">
             <div class="logo">
@@ -22,7 +47,7 @@
             </div>
 
             <ul class="nav-menu">
-                <li class="nav-item has-submenu active">
+                <li class="nav-item has-submenu">
                     <a href="perfil.html" class="nav-item-main">
                         <i class="fas fa-user"></i>
                         <span>Perfil</span>
@@ -36,7 +61,7 @@
                     </ul>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a href="chat.html"><i class="fas fa-comments"></i><span>Chat</span></a>
                 </li>
 
@@ -56,62 +81,66 @@
                 </li>
             </ul>
         </div>
+
         <!-- =================== CHAT COMPLETO =================== -->
         <div class="main-content">
-
+            <!-- Painel de canais -->
             <div class="channels-panel">
                 <h3 class="channels-title">↳ Canais <i class="fas fa-chevron-down"></i></h3>
 
-                <ul class="channels-list">
-                    <li class="channel selected"># RH</li>
-                    <li class="channel"># Produção</li>
-                    <li class="channel"># Engenharia</li>
-                    <li class="channel"># Administração</li>
+                <ul class="channels-list" id="channels-list">
+                    <!-- Canais carregados via JavaScript -->
                 </ul>
 
                 <h4 class="direct-title">↳ Mensagens diretas <span>+</span></h4>
             </div>
 
-            <!-- Caixa maior do chat -->
+            <!-- Área principal do chat -->
             <div class="chat-area">
-
                 <!-- Topo do chat -->
                 <div class="chat-header">
-                    <span class="chat-name"><b># RH </b><i class="fas fa-chevron-down"></i></span>
+                    <span class="chat-name"><b id="current-channel"># CHAT GERAL</b><i class="fas fa-chevron-down"></i></span>
 
                     <div class="chat-actions">
                         <button class="b-icon">★</button>
-                        <button class="b-icon">👥 32</button>
+                        <button class="b-icon">👥 <span id="online-count">0</span></button>
                         <button class="b-icon">⋯</button>
 
                         <div class="right-actions">
-                            <i class="fas fa-bell"></i>
-                            <i class="fas fa-phone"></i>
-                            <input type="text" class="search" placeholder="Buscar">
-                            <i class="fas fa-at"></i>
-                            <i class="fas fa-bell"></i>
-                            <i class="fas fa-gear"></i>
+                            <i class="fas fa-bell" title="Notificações"></i>
+                            <i class="fas fa-phone" title="Chamada"></i>
+                            <input type="text" class="search" placeholder="Buscar" id="search-messages">
+                            <i class="fas fa-at" title="Mencionar"></i>
+                            <i class="fas fa-bell" title="Configurar notificações"></i>
+                            <i class="fas fa-gear" title="Configurações"></i>
                         </div>
                     </div>
                 </div>
 
-                <!-- Lista de mensagens/cards -->
+                <!-- Lista de mensagens -->
                 <div class="chat-users" id="chat-messages">
                     <!-- Mensagens carregadas via JavaScript -->
                 </div>
 
+                <!-- Indicador de digitação -->
+                <div class="typing-indicator" id="typing-indicator" style="display: none;">
+                    <i class="fas fa-pencil-alt"></i> <span id="typing-user"></span> está digitando...
+                </div>
+
                 <!-- Campo de mensagem -->
                 <div class="chat-input">
-                    <input type="text" id="chat-input-msg" placeholder="Digite uma mensagem...">
+                    <input type="text" id="chat-input-msg" placeholder="Digite uma mensagem no CHAT GERAL...">
                     <button class="send" id="chat-send-btn"><i class="fas fa-paper-plane"></i></button>
                 </div>
             </div>
         </div>
-
     </div>
+
+    <!-- Notificação de nova mensagem -->
+    <div class="new-message-notification" id="new-message-notification">
+        <i class="fas fa-comment"></i> Nova mensagem
     </div>
 
     <script src="static/js/chat.js"></script>
 </body>
-
 </html>
