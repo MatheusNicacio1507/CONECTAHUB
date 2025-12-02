@@ -95,7 +95,7 @@ function configurarEventos() {
 // 6. INTERFACE BÁSICA
 function carregarInterfaceBasica() {
     // Canais fixos
-    const canais = ['CHAT GERAL', 'Produção', 'Engenharia', 'Administração'];
+    const canais = ['CHAT GERAL', 'Produção', 'Engenharia', 'Administração','TI','Financeiro','RH'];
     const container = document.getElementById('channels-list');
     
     if (container) {
