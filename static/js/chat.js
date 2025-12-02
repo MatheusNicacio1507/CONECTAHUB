@@ -554,7 +554,7 @@ async function enviarMensagem() {
     input.focus();
 }
 
-// 15. ENVIAR MENSAGEM PRIVADA (CORRIGIDA PARA 401)
+// 15. ENVIAR MENSAGEM PRIVADA (ATUALIZADA PARA ATUALIZAÇÃO IMEDIATA)
 async function enviarMensagemPrivada(texto) {
     if (!chatPrivadoAtual) {
         console.error('❌ Nenhum chat privado selecionado');
@@ -563,114 +563,130 @@ async function enviarMensagemPrivada(texto) {
     
     try {
         console.log('💬 Enviando mensagem privada para:', chatPrivadoAtual.nome);
-        console.log('📊 Dados:', {
-            remetente_id: usuario.id,
-            remetente_nome: usuario.nome,
-            destinatario_id: chatPrivadoAtual.id,
-            destinatario_nome: chatPrivadoAtual.nome
-        });
         
-        // Criar objeto da mensagem
-        const mensagemData = {
-            remetente_id: usuario.id.toString(), // Garantir string
-            remetente_nome: usuario.nome,
-            destinatario_id: chatPrivadoAtual.id.toString(), // Garantir string
-            destinatario_nome: chatPrivadoAtual.nome,
-            texto: texto,
-            lida: false,
-            criado_em: new Date().toISOString() // Adicionar timestamp manualmente
-        };
-        
-        console.log('📤 Enviando dados:', mensagemData);
-        
-        // Tentativa 1: Enviar sem select() primeiro (mais simples)
-        const { error: insertError } = await supabase
-            .from('mensagens_diretas')
-            .insert([mensagemData]);
-        
-        if (insertError) {
-            console.error('❌ Erro ao inserir mensagem:', insertError);
-            
-            // Tentativa 2: Tentar sem a coluna lida (pode não existir)
-            const mensagemDataSimplified = {
-                remetente_id: usuario.id.toString(),
-                remetente_nome: usuario.nome,
-                destinatario_id: chatPrivadoAtual.id.toString(),
-                destinatario_nome: chatPrivadoAtual.nome,
-                texto: texto
-            };
-            
-            const { error: simpleError } = await supabase
-                .from('mensagens_diretas')
-                .insert([mensagemDataSimplified]);
-            
-            if (simpleError) {
-                console.error('❌ Erro na tentativa simplificada:', simpleError);
-                
-                // Fallback: Salvar no localStorage temporariamente
-                const tempMsg = {
-                    id: 'temp_' + Date.now(),
-                    ...mensagemData,
-                    isTemp: true
-                };
-                
-                todasMensagens.push(tempMsg);
-                mostrarMensagensNaTela(todasMensagens, true);
-                
-                alert('Mensagem salva localmente (erro no servidor).');
-                return;
-            }
-        }
-        
-        console.log('✅ Mensagem enviada com sucesso!');
-        
-        // Buscar a mensagem inserida para ter o ID completo
-        const { data: mensagensRecentes, error: fetchError } = await supabase
-            .from('mensagens_diretas')
-            .select('*')
-            .eq('remetente_id', usuario.id)
-            .eq('destinatario_id', chatPrivadoAtual.id)
-            .order('criado_em', { ascending: false })
-            .limit(1);
-        
-        if (!fetchError && mensagensRecentes && mensagensRecentes.length > 0) {
-            // Adicionar a mensagem real
-            todasMensagens.push(mensagensRecentes[0]);
-            mostrarMensagensNaTela(todasMensagens, true);
-        } else {
-            // Fallback: criar mensagem local
-            const localMsg = {
-                id: 'local_' + Date.now(),
-                ...mensagemData,
-                isLocal: true
-            };
-            
-            todasMensagens.push(localMsg);
-            mostrarMensagensNaTela(todasMensagens, true);
-        }
-        
-        // Atualizar lista de conversas
-        atualizarConversaApósMensagem(texto);
-        
-    } catch (error) {
-        console.error('❌ Erro crítico ao enviar mensagem:', error);
-        
-        // Fallback extremo: apenas mostrar localmente
-        const tempMsg = {
-            id: 'error_' + Date.now(),
+        // 1. CRIAR MENSAGEM TEMPORÁRIA PARA FEEDBACK IMEDIATO
+        const mensagemTemp = {
+            id: 'temp_' + Date.now(),
             remetente_id: usuario.id,
             remetente_nome: usuario.nome,
             destinatario_id: chatPrivadoAtual.id,
             destinatario_nome: chatPrivadoAtual.nome,
             texto: texto,
             criado_em: new Date().toISOString(),
-            isError: true
+            lida: true,
+            isTemp: true
         };
         
-        todasMensagens.push(tempMsg);
+        // Adicionar temporariamente à lista
+        todasMensagens.push(mensagemTemp);
+        
+        // Mostrar IMEDIATAMENTE na tela
         mostrarMensagensNaTela(todasMensagens, true);
         
-        alert('Mensagem exibida localmente (erro no servidor).');
+        // 2. ENVIAR PARA O BANCO
+        const mensagemData = {
+            remetente_id: usuario.id.toString(),
+            remetente_nome: usuario.nome,
+            destinatario_id: chatPrivadoAtual.id.toString(),
+            destinatario_nome: chatPrivadoAtual.nome,
+            texto: texto,
+            lida: false,
+            criado_em: new Date().toISOString()
+        };
+        
+        const { data, error } = await supabase
+            .from('mensagens_diretas')
+            .insert([mensagemData])
+            .select()
+            .single();
+        
+        if (error) {
+            console.error('❌ Erro ao enviar mensagem:', error);
+            
+            // Tentar inserção simplificada
+            const { error: simpleError } = await supabase
+                .from('mensagens_diretas')
+                .insert([{
+                    remetente_id: usuario.id.toString(),
+                    remetente_nome: usuario.nome,
+                    destinatario_id: chatPrivadoAtual.id.toString(),
+                    destinatario_nome: chatPrivadoAtual.nome,
+                    texto: texto
+                }]);
+            
+            if (simpleError) {
+                console.error('❌ Erro na tentativa simplificada:', simpleError);
+                
+                // Manter a mensagem temporária marcando como local
+                const index = todasMensagens.findIndex(m => m.id === mensagemTemp.id);
+                if (index !== -1) {
+                    todasMensagens[index].isLocal = true;
+                    todasMensagens[index].isTemp = false;
+                }
+                
+                alert('Mensagem salva localmente (servidor indisponível)');
+                return;
+            }
+            
+            // Se a inserção simplificada funcionou, buscar a mensagem
+            const { data: mensagensRecentes } = await supabase
+                .from('mensagens_diretas')
+                .select('*')
+                .eq('remetente_id', usuario.id)
+                .eq('destinatario_id', chatPrivadoAtual.id)
+                .order('criado_em', { ascending: false })
+                .limit(1);
+            
+            if (mensagensRecentes && mensagensRecentes.length > 0) {
+                data = mensagensRecentes[0];
+            }
+        }
+        
+        // 3. SUBSTITUIR MENSAGEM TEMPORÁRIA PELA REAL
+        if (data) {
+            // Remover temporária
+            todasMensagens = todasMensagens.filter(m => m.id !== mensagemTemp.id);
+            
+            // Adicionar mensagem real
+            todasMensagens.push(data);
+            
+            // Ordenar
+            todasMensagens.sort((a, b) => 
+                new Date(a.criado_em || a.created_at) - new Date(b.criado_em || b.created_at)
+            );
+            
+            // Mostrar atualizado
+            mostrarMensagensNaTela(todasMensagens, true);
+            
+            console.log('✅ Mensagem enviada e salva:', data.id);
+        } else {
+            // Se não conseguiu buscar a mensagem real, manter a local
+            const index = todasMensagens.findIndex(m => m.id === mensagemTemp.id);
+            if (index !== -1) {
+                todasMensagens[index].isLocal = true;
+                todasMensagens[index].isTemp = false;
+            }
+        }
+        
+        // 4. ATUALIZAR CONVERSAS
+        atualizarConversaApósMensagem(texto);
+        
+        // 5. FORÇAR VERIFICAÇÃO DE NOVAS MENSAGENS (para caso o outro usuário responda)
+        setTimeout(() => {
+            verificarNovasMensagensNoChatAtual();
+        }, 500);
+        
+    } catch (error) {
+        console.error('❌ Erro crítico ao enviar mensagem:', error);
+        
+        // Manter mensagem local em caso de erro
+        const index = todasMensagens.findIndex(m => m.isTemp);
+        if (index !== -1) {
+            todasMensagens[index].isLocal = true;
+            todasMensagens[index].isTemp = false;
+        }
+        
+        alert('Erro ao enviar mensagem. Ela foi salva localmente.');
     }
 }
 
@@ -885,15 +901,94 @@ async function carregarMensagensIniciais() {
     }
 }
 
-// 22. INICIAR ATUALIZAÇÃO AUTOMÁTICA
+// 22. INICIAR ATUALIZAÇÃO AUTOMÁTICA (CORRIGIDA)
 function iniciarAtualizacaoAutomatica() {
     if (intervaloAtualizacao) clearInterval(intervaloAtualizacao);
     
     intervaloAtualizacao = setInterval(async () => {
         await verificarNovasMensagens();
-    }, 5000); // 5 segundos
+        
+        // Se estiver em um chat privado, verificar novas mensagens específicas
+        if (chatPrivadoAtual) {
+            await verificarNovasMensagensNoChatAtual();
+        }
+    }, 2000); // 2 segundos (mais rápido)
     
-    console.log('⏱️ Atualização automática ativada');
+    console.log('⏱️ Atualização automática ativada (2 segundos)');
+}
+
+// Nova função para verificar mensagens no chat atual
+async function verificarNovasMensagensNoChatAtual() {
+    if (!chatPrivadoAtual) return;
+    
+    try {
+        // Pegar o timestamp da última mensagem que temos
+        let ultimoTimestamp = null;
+        if (todasMensagens.length > 0) {
+            const ultimaMsg = todasMensagens[todasMensagens.length - 1];
+            ultimoTimestamp = ultimaMsg.criado_em || ultimaMsg.created_at;
+        }
+        
+        // Construir query
+        let query = supabase
+            .from('mensagens_diretas')
+            .select('*')
+            .or(`and(remetente_id.eq.${usuario.id},destinatario_id.eq.${chatPrivadoAtual.id}),and(remetente_id.eq.${chatPrivadoAtual.id},destinatario_id.eq.${usuario.id})`)
+            .order('criado_em', { ascending: true });
+        
+        // Se temos timestamp, buscar apenas mensagens novas
+        if (ultimoTimestamp) {
+            query = query.gt('criado_em', ultimoTimestamp);
+        }
+        
+        const { data: novasMensagens, error } = await query;
+        
+        if (error) {
+            console.warn('⚠️ Erro ao verificar novas mensagens:', error);
+            return;
+        }
+        
+        if (novasMensagens && novasMensagens.length > 0) {
+            console.log(`📥 ${novasMensagens.length} nova(s) mensagem(ns) no chat atual`);
+            
+            // Filtrar duplicatas
+            const idsExistentes = todasMensagens.map(m => m.id);
+            const mensagensNovas = novasMensagens.filter(m => !idsExistentes.includes(m.id));
+            
+            if (mensagensNovas.length > 0) {
+                // Adicionar novas mensagens
+                todasMensagens.push(...mensagensNovas);
+                
+                // Ordenar por data
+                todasMensagens.sort((a, b) => 
+                    new Date(a.criado_em || a.created_at) - new Date(b.criado_em || b.created_at)
+                );
+                
+                // Atualizar tela
+                mostrarMensagensNaTela(todasMensagens, true);
+                
+                // Marcar como lidas
+                await marcarMensagensComoLidas();
+                
+                // Play som de notificação (opcional)
+                playNotificationSound();
+            }
+        }
+        
+    } catch (error) {
+        console.error('❌ Erro ao verificar mensagens do chat atual:', error);
+    }
+}
+
+// Função para tocar som de notificação
+function playNotificationSound() {
+    try {
+        const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3');
+        audio.volume = 0.3;
+        audio.play();
+    } catch (e) {
+        console.log('🔇 Som de notificação não disponível');
+    }
 }
 
 // 23. VERIFICAR NOVAS MENSAGENS
