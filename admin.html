@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin - CONECTAHUB</title>
+    <link rel="stylesheet" href="static/css/sidebar_style.css">
+    <link rel="stylesheet" href="static/css/admin_style.css">
+    <link rel="stylesheet" type="text/css" href="static/css/sidebar_style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="static/imagens/icone1.png">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script>
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        const ADMIN_CPFS = ['0000000000']; // Coloque o CPF do admin aqui
+
+        if (!user.cpf || !ADMIN_CPFS.includes(user.cpf)) {
+            alert('Acesso restrito para administradores!');
+            window.location.href = 'chat.html';
+            throw new Error('Acesso negado'); // Para o script aqui
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <!-- =================== SIDEBAR =================== -->
+        <div class="sidebar" id="sidebar">
+            <div class="logo">
+                <img src="static/imagens/loguinha.png" alt="ConectaHub" class="logo-small">
+                <img src="static/imagens/logotipo.png" alt="ConectaHub" class="logo-large">
+            </div>
+
+            <ul class="nav-menu">
+                
+                <li class="nav-item has-submenu active">
+                    <a href="perfil.html" class="nav-item-main">
+                        <i class="fas fa-user"></i>
+                        <span>Perfil</span>
+                        <i class="fas fa-chevron-down submenu-toggle"></i>
+                    </a>
+                    <ul class="submenu">
+                        <li class="submenu-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Atividades Recentes</span>
+                        </li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item active">
+                    <a href="admin.html">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Admin</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="chat.html"><i class="fas fa-comments"></i><span>Chat</span></a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="reuniao.html">
+                        <i class="fas fa-video"></i>
+                        <span>Reuniões</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="comunicados.html"><i class="fas fa-bullhorn"></i><span>Comunicados</span></a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="ranking.html"><i class="fas fa-trophy"></i><span>Reconhecimento</span></a>
+                </li>
+
+                <!-- ESPAÇO PARA O BOTÃO DE LOGOUT -->
+                <div class="logout-container">
+                    <!-- BOTÃO DE LOGOUT CENTRALIZADO NO FINAL -->
+                    <button id="logout-btn" class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i> <span class="logout-text">Sair</span>
+                    </button>
+                </div>
+            </ul>
+        </div>
+
+        <!-- =================== PAINEL ADMINISTRATIVO =================== -->
+        <div class="admin-container">
+            <!-- Header do Admin -->
+            <div class="admin-header">
+                <div class="admin-info">
+                    <div class="admin-avatar" id="admin-avatar">
+                        <!-- Inicial será preenchida via JS -->
+                    </div>
+                    <div class="admin-title">
+                        <h1 id="admin-greeting">Carregando...</h1>
+                        <p>
+                            <i class="fas fa-user-shield"></i> Painel de Controle Administrativo
+                            <span class="admin-badge">ADMIN</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="admin-actions">
+                    <button class="admin-action-btn secondary" onclick="refreshDashboard()">
+                        <i class="fas fa-sync-alt"></i> Atualizar
+                    </button>
+                    <button class="admin-action-btn primary" onclick="openAddUserModal()">
+                        <i class="fas fa-user-plus"></i> Novo Usuário
+                    </button>
+                </div>
+            </div>
+
+            <!-- Cards de Estatísticas -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon users">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Total de Usuários</h3>
+                        <div class="value" id="total-users">0</div>
+                        <div class="stat-trend positive">
+                            <i class="fas fa-arrow-up"></i> <span>+12% esta semana</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon online">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Usuários Online</h3>
+                        <div class="value" id="online-users">0</div>
+                        <div class="stat-trend positive">
+                            <i class="fas fa-wifi"></i> <span>Ativos agora</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon messages">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Mensagens Hoje</h3>
+                        <div class="value" id="today-messages">0</div>
+                        <div class="stat-trend positive">
+                            <i class="fas fa-chart-line"></i> <span>+25% que ontem</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon storage">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Uso de Armazenamento</h3>
+                        <div class="value" id="storage-used">0 GB</div>
+                        <div class="stat-trend warning">
+                            <i class="fas fa-exclamation-triangle"></i> <span>65% utilizado</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Painel de Controle com Abas -->
+            <div class="control-panel">
+                <div class="panel-header">
+                    <h2><i class="fas fa-cogs"></i> Controle do Sistema</h2>
+                    <div class="panel-tabs">
+                        <button class="tab-btn active" data-tab="users">👥 Usuários</button>
+                        <button class="tab-btn" data-tab="logs">📊 Logs</button>
+                        <button class="tab-btn" data-tab="settings">⚙️ Configurações</button>
+                    </div>
+                </div>
+
+                <!-- Tab: Usuários -->
+                <div class="tab-content active" id="users-tab">
+                    <div class="table-container">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Usuário</th>
+                                    <th>Setor</th>
+                                    <th>Status</th>
+                                    <th>Último Login</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="users-table-body">
+                                <!-- Usuários carregados via JavaScript -->
+                                <tr>
+                                    <td colspan="5" style="text-align: center; padding: 40px;">
+                                        <i class="fas fa-spinner fa-spin"></i> Carregando usuários...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tab: Logs -->
+                <div class="tab-content" id="logs-tab">
+                    <div class="logs-container" id="logs-container">
+                        <!-- Logs serão carregados via JavaScript -->
+                        <div class="log-item">
+                            <div class="log-icon info">
+                                <i class="fas fa-info-circle"></i>
+                            </div>
+                            <div class="log-content">
+                                <div class="log-message">Carregando logs do sistema...</div>
+                                <div class="log-details">
+                                    <span>Sistema</span>
+                                    <span>Admin</span>
+                                </div>
+                            </div>
+                            <div class="log-time">Agora mesmo</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: Configurações -->
+                <div class="tab-content" id="settings-tab">
+                    <div class="settings-grid">
+                        <div class="setting-card">
+                            <div class="setting-header">
+                                <i class="fas fa-user-cog"></i>
+                                <h3>Configurações de Usuário</h3>
+                            </div>
+                            <div class="setting-option">
+                                <div class="option-info">
+                                    <h4>Permitir Cadastro</h4>
+                                    <p>Usuários podem se cadastrar no sistema</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="allow-registration">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="setting-option">
+                                <div class="option-info">
+                                    <h4>Verificação de Email</h4>
+                                    <p>Exigir verificação de email para novos usuários</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="email-verification" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="setting-card">
+                            <div class="setting-header">
+                                <i class="fas fa-comments"></i>
+                                <h3>Configurações do Chat</h3>
+                            </div>
+                            <div class="setting-option">
+                                <div class="option-info">
+                                    <h4>Chat Público</h4>
+                                    <p>Permitir mensagens em canais públicos</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="public-chat" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="setting-option">
+                                <div class="option-info">
+                                    <h4>Mensagens Diretas</h4>
+                                    <p>Permitir mensagens privadas entre usuários</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="direct-messages" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="setting-card">
+                            <div class="setting-header">
+                                <i class="fas fa-shield-alt"></i>
+                                <h3>Segurança</h3>
+                            </div>
+                            <div class="setting-option">
+                                <div class="option-info">
+                                    <h4>Modo Manutenção</h4>
+                                    <p>Colocar sistema em modo manutenção</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="maintenance-mode">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="setting-option">
+                                <div class="option-info">
+                                    <h4>Log de Atividades</h4>
+                                    <p>Registrar todas as ações no sistema</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="activity-log" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =================== MODAIS =================== -->
+    <!-- Modal: Adicionar Usuário -->
+    <div class="modal-overlay" id="add-user-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-plus"></i> Adicionar Novo Usuário</h3>
+                <button class="close-modal" onclick="closeAddUserModal()">&times;</button>
+            </div>
+
+            <form class="modal-form" id="add-user-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nome Completo *</label>
+                        <input type="text" id="new-user-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>CPF *</label>
+                        <input type="text" id="new-user-cpf" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>E-mail *</label>
+                        <input type="email" id="new-user-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Setor *</label>
+                        <select id="new-user-setor" required>
+                            <option value="">Selecione...</option>
+                            <option value="RH">RH</option>
+                            <option value="TI">TI</option>
+                            <option value="Financeiro">Financeiro</option>
+                            <option value="Produção">Produção</option>
+                            <option value="Administração">Administração</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Senha *</label>
+                        <input type="password" id="new-user-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirmar Senha *</label>
+                        <input type="password" id="new-user-password-confirm" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Tipo de Usuário</label>
+                    <select id="new-user-type">
+                        <option value="user">Usuário Normal</option>
+                        <option value="admin">Administrador</option>
+                    </select>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" onclick="closeAddUserModal()">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn-save">
+                        <i class="fas fa-save"></i> Salvar Usuário
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Editar Usuário -->
+    <div class="modal-overlay" id="edit-user-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-edit"></i> Editar Usuário</h3>
+                <button class="close-modal" onclick="closeEditUserModal()">&times;</button>
+            </div>
+
+            <form class="modal-form" id="edit-user-form">
+                <input type="hidden" id="edit-user-id">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nome Completo *</label>
+                        <input type="text" id="edit-user-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>CPF *</label>
+                        <input type="text" id="edit-user-cpf" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>E-mail *</label>
+                        <input type="email" id="edit-user-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Setor *</label>
+                        <select id="edit-user-setor" required>
+                            <option value="">Selecione...</option>
+                            <option value="RH">RH</option>
+                            <option value="TI">TI</option>
+                            <option value="Financeiro">Financeiro</option>
+                            <option value="Produção">Produção</option>
+                            <option value="Administração">Administração</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Tipo de Usuário</label>
+                    <select id="edit-user-type">
+                        <option value="user">Usuário Normal</option>
+                        <option value="admin">Administrador</option>
+                    </select>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" onclick="closeEditUserModal()">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn-save">
+                        <i class="fas fa-save"></i> Atualizar Usuário
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- =================== SCRIPTS =================== -->
+    <script src="static/js/sidebar.js"></script>
+    <script src="static/js/admin.js"></script>
+</body>
+
+</html>

@@ -53,15 +53,34 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // 🔥 AGORA SALVA EMAIL + CPF JUNTO COM OS OUTROS
+        // 🔥 DEFINA AQUI O CPF DO ADMINISTRADOR
+        // TROQUE '00000000000' PELO CPF REAL DO SEU ADMIN
+        const CPF_ADMIN = '0000000000';
+        
+        // Verificar se é administrador (compara CPF)
+        const isAdmin = data.cpf && data.cpf.toString() === CPF_ADMIN;
+        
+        console.log(`👤 Usuário: ${data.nome}`);
+        console.log(`📋 CPF: ${data.cpf}`);
+        console.log(`👑 É administrador? ${isAdmin ? 'SIM' : 'NÃO'}`);
+
+        // 🔥 SALVAR DADOS DO USUÁRIO (ADICIONA FLAG DE ADMIN)
         localStorage.setItem("user", JSON.stringify({
             id: data.id,
             nome: data.nome,
             setor: data.setor,
-            email: data.email,  // <---
-            cpf: data.cpf       // <---
+            email: data.email,
+            cpf: data.cpf,
+            isAdmin: isAdmin  // ← FLAG NOVA: true se for admin
         }));
 
-        window.location.href = "perfil.html";
+        // 🔥 REDIRECIONAMENTO INTELIGENTE
+        if (isAdmin) {
+            console.log("🚀 Redirecionando ADMIN para painel...");
+            window.location.href = "admin.html";
+        } else {
+            console.log("💬 Redirecionando USUÁRIO para perfil...");
+            window.location.href = "perfil.html";
+        }
     });
 });
