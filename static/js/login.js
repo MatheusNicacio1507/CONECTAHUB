@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // 🔥 REDIRECIONAMENTO INTELIGENTE
         if (isAdmin) {
             console.log("🚀 Redirecionando ADMIN para painel...");
-            window.location.href = "/admin.html";
+            window.location.href = "admin.html";
         } else {
             console.log("💬 Redirecionando USUÁRIO para perfil...");
             window.location.href = "perfil.html";
