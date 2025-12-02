@@ -15,13 +15,33 @@ const rankingsData = {
         { position: 1, name: "Fernanda Rocha", points: 2400 },
         { position: 2, name: "Ricardo Souza", points: 2250 },
         { position: 3, name: "Patrícia Mendes", points: 2100 }
+    ],
+    // NOVOS SETORES ADICIONADOS
+    administracao: [
+        { position: 1, name: "Luiza Ferreira", points: 1950 },
+        { position: 2, name: "Marcelo Costa", points: 1820 },
+        { position: 3, name: "Beatriz Almeida", points: 1750 }
+    ],
+    ti: [
+        { position: 1, name: "Rafael Santos", points: 2200 },
+        { position: 2, name: "Camila Oliveira", points: 2050 },
+        { position: 3, name: "Daniel Pereira", points: 1980 }
+    ],
+    financeiro: [
+        { position: 1, name: "Juliana Mendes", points: 1900 },
+        { position: 2, name: "Gustavo Lima", points: 1850 },
+        { position: 3, name: "Amanda Souza", points: 1780 }
     ]
 };
 
 const departmentNames = {
     rh: "RH",
     engenharia: "Engenharia",
-    producao: "Produção"
+    producao: "Produção",
+    // NOVOS SETORES ADICIONADOS
+    administracao: "Administração",
+    ti: "TI",
+    financeiro: "Financeiro"
 };
 
 /* === FUNÇÃO PARA MUDAR O DEPARTAMENTO === */
@@ -71,7 +91,8 @@ function getPositionClass(position) {
         default: return '';
     }
 }
-  
+
+// ... o restante do seu código JavaScript permanece igual ...
 function setupSubmenuToggle() {  
 const submenuToggle = document.querySelector('.submenu-toggle');  
 const navItem = document.querySelector('.nav-item.has-submenu');  

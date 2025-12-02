@@ -11,360 +11,531 @@ html {
     --dark-color: #34495e;  
     --success-color: #2ecc71;  
     --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  
-    }  
-    
-    * {
+}  
+
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    
-    body {
+}
+
+body {
     background: linear-gradient(#42cc9c, #33c0e8 20%, #0c71B9, #094F81 100%);
     color: white;
     line-height: 1.6;
     min-height: 100vh;
-    }
-    
-    .container {
+}
+
+.container {
     display: flex;
     min-height: 100vh;
-    }
-    
-    /* =================== MAIN CONTENT =================== */
-    
-    .main-content {
-        flex: 1;
-        padding: 30px;
-        overflow-y: auto;
-        background: linear-gradient(#42cc9c, #33c0e8 20%, #0c71B9, #094F81 100%);
-        margin-left: 100px; /* Largura da sidebar recolhida */
-        transition: margin-left 0.3s ease;
-        width: calc(100% - 100px);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .header {
+}
+
+/* =================== MAIN CONTENT =================== */
+.main-content {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+    background: linear-gradient(#42cc9c, #33c0e8 20%, #0c71B9, #094F81 100%);
+    margin-left: 100px; /* Largura da sidebar recolhida */
+    transition: margin-left 0.3s ease;
+    width: calc(100% - 100px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.header {
     margin-bottom: 30px;
-    }
-    
-    .ranking-header h2 {
+}
+
+.ranking-header h2 {
     font-size: 1.1rem;
     color: black;
     margin-bottom: 3px;
+}
+
+/* =================== RANKING SECTION =================== */
+.ranking-section {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.ranking-card {
+    background: linear-gradient( #33c0e8 20%, #0c71B9, #094F81 100%);
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    padding: 50px;
+    width: 100%;
+}
+
+.ranking-card.hidden {
+    display: none;
+}
+
+.ranking-title {
+    font-size: 1.1rem;
+    color: black;
+    margin-bottom: 2px;
+}
+
+.ranking-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    text-align: center;
+    font-weight: 10px;
+    color: black;
+}
+
+.ranking-positions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.position-card {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.position-card:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.position-number {
+    background-color: white;
+    color: #0c71B9;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.position-info {
+    flex: 1;
+}
+
+.position-name {
+    color: black;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.position-points {
+    font-size: 0.9rem;
+    color: black;
+}
+
+/* Posições especiais */
+.first-place {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+}
+
+.first-place .position-number {
+    background-color: #FFA500;
+    color: white;
+}
+
+.second-place {
+    background: linear-gradient(135deg, #C0C0C0, #A0A0A0);
+}
+
+.second-place .position-number {
+    background-color: #A0A0A0;
+    color: white;
+}
+
+.third-place {
+    background: linear-gradient(135deg, #CD7F32, #A56C27);
+}
+
+.third-place .position-number {
+    background-color: #A56C27;
+    color: white;
+}
+
+.crown-icon {
+    color: #FFD700;
+    font-size: 1.5rem;
+}
+
+/* Conquistas */
+.achievements-section {
+    background-color: #0c71B9;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    padding: 30px;
+    width: 100%;
+}
+
+.achievements-title {
+    color: black;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.department-badges {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 100%;
+}
+
+.department-badge {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    min-width: 140px;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.department-badge:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.department-badge.active {
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 2px solid white;
+    transform: scale(1.05);
+    box-shadow: 0 5px 20px rgba(255, 255, 255, 0.2);
+}
+
+.badge-icon {
+    display: none;
+}
+
+.badge-text {
+    color: black;
+    font-weight: 600;
+    font-size: 1rem;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* =================== RESPONSIVE =================== */
+@media (max-width: 1024px) {
+    .main-content {
+        padding: 20px;
     }
-    
-    /* =================== RANKING SECTION =================== */
     
     .ranking-section {
-        display: flex;
-        flex-direction: column;
-        gap: 30px;
-        max-width: 900px;
-        margin: 0 auto;
-    }
-    
-    .ranking-card {
-        background: linear-gradient( #33c0e8 20%, #0c71B9, #094F81 100%);
-        border-radius: 15px;
-        box-shadow: var(--shadow);
-        padding: 50px;
-    }
-    
-    .ranking-card.hidden {
-        display: none;
-    }
-    
-    .ranking-title {
-        font-size: 1.1rem;
-        color: black;
-        margin-bottom: 2px;
-    }
-    
-    .ranking-subtitle {
-        color: rgba(255, 255, 255, 0.9);
-        font-size: 1.1rem;
-        margin-bottom: 25px;
-        text-align: center;
-        font-weight: 10px;
-        color: black;
-    }
-    
-    .ranking-positions {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-    }
-    
-    .position-card {
-        background-color: rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
-        padding: 20px;
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        position: relative;
-        transition: all 0.3s ease;
-    }
-    
-    .position-card:hover {
-        background-color: rgba(255, 255, 255, 0.2);
-        transform: translateY(-2px);
-    }
-    
-    .position-number {
-        background-color: white;
-        color: #0c71B9;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.2rem;
-        font-weight: bold;
-    }
-    
-    .position-info {
-        flex: 1;
-    }
-    
-    .position-name {
-        color: black;
-        font-size: 1.1rem;
-        font-weight: 600;
-        margin-bottom: 5px;
-    }
-    
-    .position-points {
-        font-size: 0.9rem;
-        color: black;
-    }
-    
-    /* Posições especiais */
-    .first-place {
-        background: linear-gradient(135deg, #FFD700, #FFA500);
-    }
-    
-    .first-place .position-number {
-        background-color: #FFA500;
-        color: white;
-    }
-    
-    .second-place {
-        background: linear-gradient(135deg, #C0C0C0, #A0A0A0);
-    }
-    
-    .second-place .position-number {
-        background-color: #A0A0A0;
-        color: white;
-    }
-    
-    .third-place {
-        background: linear-gradient(135deg, #CD7F32, #A56C27);
-    }
-    
-    .third-place .position-number {
-        background-color: #A56C27;
-        color: white;
-    }
-    
-    .crown-icon {
-        color: #FFD700;
-        font-size: 1.5rem;
-    }
-    
-    /* Conquistas */
-    .achievements-section {
-        background-color: #0c71B9;
-        border-radius: 15px;
-        box-shadow: var(--shadow);
-        padding: 30px;
-    }
-    
-    .achievements-title {
-        color: black;
-        font-size: 1.5rem;
-        margin-bottom: 20px;
-        text-align: center;
+        max-width: 800px;
     }
     
     .department-badges {
-        display: flex;
-        gap: 20px;
-        justify-content: center;
-        flex-wrap: wrap;
+        gap: 12px;
     }
     
     .department-badge {
-        background-color: rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
-        padding: 8px 10px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        transition: all 0.3s ease;
-        min-width: 150px;
-        cursor: pointer;
+        min-width: 130px;
+        padding: 10px 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        padding: 15px;
+        margin-left: 0;
+        width: 100%;
+    }
+    
+    .ranking-section {
+        gap: 20px;
+    }
+    
+    .ranking-card {
+        padding: 30px 20px;
+    }
+    
+    .achievements-section {
+        padding: 20px 15px;
+    }
+    
+    .department-badges {
+        gap: 10px;
         justify-content: center;
     }
     
-    .department-badge:hover {
-        background-color: rgba(255, 255, 255, 0.2);
-        transform: translateY(-2px);
-    }
-    
-    .department-badge.active {
-        background-color: rgba(255, 255, 255, 0.3);
-        border: 2px solid white;
-        transform: scale(1.05);
-    }
-    
-    .badge-icon {
-        display: none;
+    .department-badge {
+        min-width: calc(33.333% - 10px);
+        max-width: calc(33.333% - 10px);
+        padding: 10px 5px;
+        margin-bottom: 5px;
     }
     
     .badge-text {
-        color: black;
-        font-weight: 600;
-        font-size: 1.0rem;
+        font-size: 0.9rem;
+        white-space: normal;
+        word-break: break-word;
+        line-height: 1.2;
+    }
+    
+    .position-card {
+        padding: 15px;
+    }
+    
+    .position-number {
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 680px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100% !important;
+        min-height: auto;
+        background: #0c71B9;
+        padding: 10px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow: visible;
+        position: relative;
+        height: auto;
+    }
+
+    .sidebar.expanded {
+        width: 100% !important;
+    }
+
+    .logo {
         margin: 0;
+        padding: 10px;
+    }
+
+    .logo-small {
+        width: 45px !important;
+    }
+
+    .logo-large {
+        width: 80px !important;
+    }
+
+    .nav-menu {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        overflow-x: auto;
+        justify-content: space-around;
+        padding: 10px 0;
+    }
+
+    .nav-item {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 6px;
+        padding: 0;
+        min-width: 65px;
+        color: black;
+    }
+
+    .nav-item > a {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 6px;
+        padding: 12px;
+    }
+
+    .nav-item i {
+        font-size: 1.3rem;
+        margin: 0 !important;
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-item span,
+    .submenu,
+    .submenu-toggle {
+        display: none !important;
+    }
+
+    .main-content {
+        padding-top: 20px;
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+
+    /* ==== RANKING RESPONSIVE ==== */
+    .ranking-section {
+        gap: 30px;
+    }
+    
+    .ranking-card,
+    .achievements-section {
+        padding: 25px 15px;
+    }
+    
+    .position-card {
+        padding: 12px 15px;
+    }
+    
+    .position-number {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
+    .department-badges {
+        gap: 8px;
+    }
+    
+    .department-badge {
+        min-width: calc(50% - 8px);
+        max-width: calc(50% - 8px);
+        padding: 10px 5px;
+        margin-bottom: 8px;
+    }
+    
+    .badge-text {
+        font-size: 0.85rem;
+        line-height: 1.1;
+    }
+    
+    .ranking-header h2 {
+        font-size: 1.0rem;
+        color: black;
+        margin-top: 0;
+        margin-left: 0;
+        text-align: center;
+    }
+
+    .ranking-title {
+        font-size: 1.0rem;
+        color: black;
+        margin-top: 5px;
+        margin-left: 0;
         text-align: center;
     }
     
-    /* =================== RESPONSIVE =================== */
-    @media (max-width: 680px) {
-        .container {
-            flex-direction: column;
-        }
-    
-        .sidebar {
-            width: 100% !important;
-            min-height: auto;
-            background: #0c71B9;
-            padding: 10px 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            overflow: visible;
-            position: relative;
-            height: auto;
-        }
-    
-        .sidebar.expanded {
-            width: 100% !important;
-        }
-    
-        .logo {
-            margin: 0;
-            padding: 10px;
-        }
-    
-        .logo-small {
-            width: 45px !important;
-        }
-    
-        .logo-large {
-            width: 80px !important;
-        }
-    
-        .nav-menu {
-            display: flex;
-            flex-direction: row;
-            width: 100%;
-            overflow-x: auto;
-            justify-content: space-around;
-            padding: 10px 0;
-        }
-    
-        .nav-item {
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 6px;
-            padding: 0;
-            min-width: 65px;
-            color: black;
-        }
-    
-        .nav-item > a {
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 6px;
-            padding: 12px;
-        }
-    
-        .nav-item i {
-            font-size: 1.3rem;
-            margin: 0 !important;
-            width: 100%;
-            text-align: center;
-        }
-    
-        .nav-item span,
-        .submenu,
-        .submenu-toggle {
-            display: none !important;
-        }
-    
-        .main-content {
-            padding-top: 20px;
-            margin-left: 0 !important;
-            width: 100% !important;
-        }
-    
-        /* ==== RANKING RESPONSIVE ==== */
-        .ranking-section {
-            gap: 40px;
-        }
-        
-        .ranking-card,
-        .achievements-section {
-            padding: 60px;
-        }
-        
-        .position-card {
-            padding: 15px;
-        }
-        
-        .position-number {
-            width: 40px;
-            height: 40px;
-            font-size: 1rem;
-        }
-        
-        .department-badges {
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .department-badge {
-            width: 100%;
-            max-width: 200px;
-            justify-content: center;
-        }
-        
-        .ranking-header h2 {
-            font-size: 1.0rem;
-            color: black;
-            margin-top: -46px;
-            margin-left: -44px;
-        }
-    
-        .ranking-title {
-            font-size: 1.0rem;
-            color: black;
-            margin-top: -7px;
-            margin-left: -45px;
-        }
-        
-        .ranking-subtitle {
-            margin-top: 28px;
-            color: black;
-            font-weight: 10px;
-        }
+    .ranking-subtitle {
+        margin-top: 10px;
+        color: black;
+        font-weight: normal;
+        text-align: center;
+        font-size: 1rem;
     }
+    
+    .position-name {
+        font-size: 1rem;
+    }
+    
+    .position-points {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .department-badge {
+        min-width: calc(100% - 8px);
+        max-width: calc(100% - 8px);
+        padding: 12px 10px;
+    }
+    
+    .badge-text {
+        font-size: 1rem;
+    }
+    
+    .ranking-card {
+        padding: 20px 15px;
+    }
+    
+    .position-card {
+        padding: 10px;
+    }
+    
+    .position-number {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+    
+    .position-name {
+        font-size: 0.95rem;
+    }
+    
+    .position-points {
+        font-size: 0.8rem;
+    }
+}
+
+/* Animações para transição de setores */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.ranking-positions {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Melhorias para acessibilidade */
+.department-badge:focus {
+    outline: 2px solid white;
+    outline-offset: 2px;
+}
+
+.position-card:focus-within {
+    outline: 2px solid rgba(255, 255, 255, 0.5);
+    outline-offset: 2px;
+}
+
+/* Scrollbar personalizada */
+.main-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.main-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+.main-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
