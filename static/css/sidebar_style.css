@@ -357,3 +357,94 @@
     visibility: visible;
     transform: translateY(-50%) translateX(15px);
 }
+
+/* =================== SIDEBAR HORIZONTAL NO MOBILE =================== */
+@media (max-width: 650px) {
+
+    /* Sidebar vira barra horizontal */
+    .sidebar {
+        width: 100%;
+        height: 70px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        border-radius: 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 0 10px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        box-shadow: 0px 4px 12px rgba(0,0,0,0.25);
+    }
+
+    /* Conteúdo principal desce */
+    .main-content {
+        margin-left: 0 !important;
+        margin-top: 80px; /* espaço para o menu horizontal */
+    }
+
+    /* Logo – reduzida para caber */
+    .logo {
+        margin: 0;
+        padding: 0 10px;
+        border: none;
+    }
+
+    .logo-small {
+        width: 40px;
+        opacity: 1 !important;
+    }
+
+    .logo-large {
+        display: none !important;
+    }
+
+    /* Itens horizontalmente */
+    .nav-menu {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 15px;
+        background: transparent;
+        padding: 0;
+        margin: 0;
+        width: max-content;
+    }
+
+    .nav-item {
+        padding: 10px 12px;
+        flex-direction: row;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    /* Texto dos itens desaparece no mobile */
+    .nav-item span {
+        display: none !important;
+    }
+
+    /* Submenu desabilitado no mobile (opcional) */
+    .submenu {
+        display: none !important;
+    }
+
+    /* Logout fica no final da barra horizontal */
+    .logout-container {
+        margin-top: 0;
+        position: static;
+        padding: 0 10px;
+    }
+
+    .logout-btn {
+        width: auto;
+        height: 40px;
+        border-radius: 8px;
+        padding: 5px 12px;
+    }
+
+    .logout-text {
+        display: none;
+    }
+
+}
